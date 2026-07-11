@@ -8,8 +8,16 @@ function normalizeBaseUrl(url) {
   return url.replace(/\/+$/, '');
 }
 
+function isLocalBrowserRuntime() {
+  if (typeof window === 'undefined') {
+    return false;
+  }
+
+  return ['localhost', '127.0.0.1', '::1'].includes(window.location.hostname);
+}
+
 const chatApi = axios.create({
-  baseURL: import.meta.env.DEV
+  baseURL: isLocalBrowserRuntime()
     ? ''
     : normalizeBaseUrl(import.meta.env.VITE_CHAT_API_BASE_URL || DEFAULT_CHAT_API_BASE_URL),
   headers: {
