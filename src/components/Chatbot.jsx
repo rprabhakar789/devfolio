@@ -1,6 +1,9 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { FiLoader, FiMessageCircle, FiSend, FiX } from 'react-icons/fi';
+import ReactMarkdown from 'react-markdown';
+import remarkBreaks from 'remark-breaks';
+import remarkGfm from 'remark-gfm';
 import { sendChatMessage } from '../lib/chatApi';
 import '../styles/Chatbot.css';
 
@@ -55,6 +58,21 @@ function readStoredState() {
       sessionId: createSessionId()
     };
   }
+}
+
+function AssistantMessage({ message }) {
+  return (
+    <ReactMarkdown
+      className="chat-message-markdown"
+      remarkPlugins={[remarkGfm, remarkBreaks]}
+      skipHtml
+      components={{
+        a: ({ ...props }) => <a {...props} target="_blank" rel="noopener noreferrer" />
+      }}
+    >
+      {message}
+    </ReactMarkdown>
+  );
 }
 
 function Chatbot() {
@@ -186,7 +204,11 @@ function Chatbot() {
                     message.isError ? 'error' : ''
                   }`}
                 >
-                  <p>{message.message}</p>
+                  {message.role === 'assistant' ? (
+                    <AssistantMessage message={message.message} />
+                  ) : (
+                    <p>{message.message}</p>
+                  )}
                 </article>
               ))}
 
