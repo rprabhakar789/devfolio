@@ -1,6 +1,6 @@
 .footer {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0.5));
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(180deg, rgba(243, 234, 219, 0.02), rgba(0, 0, 0, 0.5));
+  border-top: 1px solid rgba(214, 181, 122, 0.12);
   padding: 2rem;
 }
 
@@ -43,14 +43,14 @@
 }
 
 .footer-links a {
-  color: var(--primary-dark);
+  color: var(--accent-subtle);
   text-decoration: none;
   font-weight: 500;
   transition: all 0.3s ease;
 }
 
 .footer-links a:hover {
-  color: var(--text);
+  color: var(--primary);
 }
 
 @media (max-width: 768px) {

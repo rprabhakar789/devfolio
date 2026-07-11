@@ -14,7 +14,7 @@
   transform: translateX(-50%);
   width: 2px;
   height: 100%;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0.08));
+  background: linear-gradient(180deg, rgba(214, 181, 122, 0.24), rgba(214, 181, 122, 0.08));
   top: 0;
 }
 
@@ -95,11 +95,11 @@
   align-items: center;
   justify-content: center;
   border-radius: 0.9rem;
-  color: color-mix(in srgb, var(--company-accent) 84%, white 16%);
+  color: color-mix(in srgb, var(--company-logo-accent) 84%, white 16%);
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02)),
-    radial-gradient(circle at top, color-mix(in srgb, var(--company-accent) 18%, transparent), transparent 70%);
-  border: 1px solid color-mix(in srgb, var(--company-accent) 24%, rgba(255, 255, 255, 0.08));
+    linear-gradient(180deg, rgba(243, 234, 219, 0.05), rgba(243, 234, 219, 0.02)),
+    radial-gradient(circle at top, color-mix(in srgb, var(--company-logo-accent) 18%, transparent), transparent 70%);
+  border: 1px solid color-mix(in srgb, var(--company-logo-accent) 24%, rgba(214, 181, 122, 0.08));
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
   flex-shrink: 0;
 }
@@ -115,7 +115,7 @@
 }
 
 .company {
-  color: color-mix(in srgb, var(--company-accent) 74%, white 26%);
+  color: color-mix(in srgb, var(--company-accent) 76%, white 24%);
   font-weight: 700;
   margin: 0 0 0.35rem;
   text-transform: uppercase;
@@ -124,7 +124,7 @@
 }
 
 .company-engagement {
-  color: color-mix(in srgb, var(--company-accent-soft) 72%, white 28%);
+  color: color-mix(in srgb, var(--company-accent-soft) 70%, white 30%);
   font-size: 0.9rem;
   margin: 0 0 0.3rem;
 }
@@ -180,7 +180,7 @@
   content: '→';
   position: absolute;
   left: 0;
-  color: color-mix(in srgb, var(--company-accent) 76%, white 24%);
+  color: color-mix(in srgb, var(--company-accent) 82%, white 18%);
   font-weight: bold;
 }
 

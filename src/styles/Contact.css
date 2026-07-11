@@ -52,11 +52,11 @@
 }
 
 .contact-link[href^="mailto:"] svg {
-  color: #f59e0b;
+  color: #c9a56a;
 }
 
 .contact-link[href*="linkedin.com"] svg {
-  color: #0a66c2;
+  color: #7da2bf;
 }
 
 .contact-link[href*="github.com"] svg {
@@ -64,7 +64,7 @@
 }
 
 .contact-link[download] svg {
-  color: #34d399;
+  color: #d6b57a;
 }
 
 .link-label {
@@ -110,8 +110,8 @@
 .form-group textarea:focus {
   outline: none;
   background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.18);
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.06);
+  border-color: rgba(214, 181, 122, 0.24);
+  box-shadow: 0 0 0 3px rgba(214, 181, 122, 0.08);
 }
 
 .submit-btn {

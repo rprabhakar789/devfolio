@@ -5,23 +5,23 @@
 }
 
 :root {
-  --primary: #f5f5f5;
-  --primary-dark: #d4d4d4;
-  --secondary: #a3a3a3;
-  --accent: #ffffff;
-  --dark: #0a0a0a;
-  --darker: #030303;
-  --text: #f5f5f5;
-  --text-muted: #a3a3a3;
-  --bg: #080808;
-  --bg-secondary: #111111;
-  --bg-tertiary: #181818;
-  --border: #2a2a2a;
-  --surface: rgba(255, 255, 255, 0.04);
-  --surface-strong: rgba(255, 255, 255, 0.06);
-  --surface-hover: rgba(255, 255, 255, 0.08);
-  --surface-soft: rgba(255, 255, 255, 0.02);
-  --accent-subtle: #9fb6c9;
+  --primary: #f3eadb;
+  --primary-dark: #dbc4a0;
+  --secondary: #b79a6a;
+  --accent: #d6b57a;
+  --dark: #18110d;
+  --darker: #0f0a07;
+  --text: #f3eadb;
+  --text-muted: #b8a28a;
+  --bg: #110c09;
+  --bg-secondary: #1a1410;
+  --bg-tertiary: #261d17;
+  --border: #3a2e24;
+  --surface: rgba(243, 234, 219, 0.04);
+  --surface-strong: rgba(243, 234, 219, 0.06);
+  --surface-hover: rgba(243, 234, 219, 0.09);
+  --surface-soft: rgba(243, 234, 219, 0.025);
+  --accent-subtle: #c9a56a;
   --shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.45);
   --shadow-md: 0 12px 32px rgba(0, 0, 0, 0.3);
 }
@@ -33,8 +33,9 @@ html {
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background:
-    radial-gradient(circle at top, rgba(255, 255, 255, 0.06), transparent 32%),
-    linear-gradient(180deg, #0b0b0b 0%, #050505 100%);
+    radial-gradient(circle at top, rgba(214, 181, 122, 0.12), transparent 28%),
+    radial-gradient(circle at bottom left, rgba(243, 234, 219, 0.06), transparent 30%),
+    linear-gradient(180deg, #140f0c 0%, #0d0907 100%);
   color: var(--text);
   overflow-x: hidden;
 }
@@ -82,7 +83,7 @@ section {
 .btn-primary {
   background: var(--text);
   color: var(--bg);
-  border: 1px solid rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(243, 234, 219, 0.85);
   box-shadow: var(--shadow-md);
 }
 
@@ -93,14 +94,14 @@ section {
 
 .btn-secondary {
   background: var(--surface);
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(214, 181, 122, 0.2);
   color: var(--text);
   backdrop-filter: blur(10px);
 }
 
 .btn-secondary:hover {
   background: var(--surface-hover);
-  border-color: rgba(255, 255, 255, 0.24);
+  border-color: rgba(214, 181, 122, 0.34);
 }
 
 @media (max-width: 768px) {
