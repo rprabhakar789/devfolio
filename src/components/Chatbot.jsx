@@ -62,16 +62,17 @@ function readStoredState() {
 
 function AssistantMessage({ message }) {
   return (
-    <ReactMarkdown
-      className="chat-message-markdown"
-      remarkPlugins={[remarkGfm, remarkBreaks]}
-      skipHtml
-      components={{
-        a: ({ ...props }) => <a {...props} target="_blank" rel="noopener noreferrer" />
-      }}
-    >
-      {message}
-    </ReactMarkdown>
+    <div className="chat-message-markdown">
+      <ReactMarkdown
+        remarkPlugins={[remarkGfm, remarkBreaks]}
+        skipHtml
+        components={{
+          a: ({ ...props }) => <a {...props} target="_blank" rel="noopener noreferrer" />
+        }}
+      >
+        {message}
+      </ReactMarkdown>
+    </div>
   );
 }
 
