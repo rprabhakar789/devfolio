@@ -3,6 +3,7 @@ import './App.css';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import About from './components/About';
+import Chatbot from './components/Chatbot';
 import Education from './components/Education';
 import Experience from './components/Experience';
 import Skills from './components/Skills';
@@ -35,6 +36,7 @@ function App() {
         <Contact />
       </main>
       <Footer />
+      <Chatbot />
     </div>
   );
 }
