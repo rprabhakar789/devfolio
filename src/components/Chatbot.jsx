@@ -75,6 +75,10 @@ function AssistantMessage({ message }) {
   );
 }
 
+function isUserRole(role) {
+  return typeof role === 'string' && role.trim().toLowerCase() === 'user';
+}
+
 function Chatbot() {
   const storedState = useMemo(() => readStoredState(), []);
   const [isOpen, setIsOpen] = useState(storedState.isOpen);
@@ -197,20 +201,24 @@ function Chatbot() {
             </div>
 
             <div className="chatbot-messages" role="log" aria-live="polite">
-              {messages.map((message) => (
-                <article
-                  key={message.id}
-                  className={`chat-message ${message.role === 'user' ? 'user' : 'assistant'} ${
-                    message.isError ? 'error' : ''
-                  }`}
-                >
-                  {message.role === 'assistant' ? (
-                    <AssistantMessage message={message.message} />
-                  ) : (
-                    <p>{message.message}</p>
-                  )}
-                </article>
-              ))}
+              {messages.map((message) => {
+                const isUserMessage = isUserRole(message.role);
+
+                return (
+                  <article
+                    key={message.id}
+                    className={`chat-message ${isUserMessage ? 'user' : 'assistant'} ${
+                      message.isError ? 'error' : ''
+                    }`}
+                  >
+                    {isUserMessage ? (
+                      <p>{message.message}</p>
+                    ) : (
+                      <AssistantMessage message={message.message} />
+                    )}
+                  </article>
+                );
+              })}
 
               {isLoading && (
                 <div className="chat-message assistant loading">
