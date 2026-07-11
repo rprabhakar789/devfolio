@@ -5,18 +5,24 @@
 }
 
 :root {
-  --primary: #6366f1;
-  --primary-dark: #4f46e5;
-  --secondary: #ec4899;
-  --accent: #14b8a6;
-  --dark: #0f172a;
-  --darker: #020617;
-  --text: #e2e8f0;
-  --text-muted: #94a3b8;
-  --bg: #0f172a;
-  --bg-secondary: #1e293b;
-  --bg-tertiary: #334155;
-  --border: #475569;
+  --primary: #f5f5f5;
+  --primary-dark: #d4d4d4;
+  --secondary: #a3a3a3;
+  --accent: #ffffff;
+  --dark: #0a0a0a;
+  --darker: #030303;
+  --text: #f5f5f5;
+  --text-muted: #a3a3a3;
+  --bg: #080808;
+  --bg-secondary: #111111;
+  --bg-tertiary: #181818;
+  --border: #2a2a2a;
+  --surface: rgba(255, 255, 255, 0.04);
+  --surface-strong: rgba(255, 255, 255, 0.06);
+  --surface-hover: rgba(255, 255, 255, 0.08);
+  --surface-soft: rgba(255, 255, 255, 0.02);
+  --shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.45);
+  --shadow-md: 0 12px 32px rgba(0, 0, 0, 0.3);
 }
 
 html {
@@ -25,7 +31,9 @@ html {
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, var(--dark) 0%, var(--darker) 100%);
+  background:
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.06), transparent 32%),
+    linear-gradient(180deg, #0b0b0b 0%, #050505 100%);
   color: var(--text);
   overflow-x: hidden;
 }
@@ -44,10 +52,8 @@ h2 {
   font-size: 3rem;
   font-weight: 700;
   margin-bottom: 3rem;
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--text);
+  letter-spacing: -0.03em;
   text-align: center;
 }
 
@@ -73,24 +79,27 @@ section {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-  color: white;
-  box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+  background: var(--text);
+  color: var(--bg);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: var(--shadow-md);
 }
 
 .btn-primary:hover {
-  box-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
+  background: #ffffff;
+  transform: translateY(-1px);
 }
 
 .btn-secondary {
-  background: transparent;
-  border: 2px solid var(--primary);
-  color: var(--primary);
+  background: var(--surface);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: var(--text);
+  backdrop-filter: blur(10px);
 }
 
 .btn-secondary:hover {
-  background: var(--primary);
-  color: white;
+  background: var(--surface-hover);
+  border-color: rgba(255, 255, 255, 0.24);
 }
 
 @media (max-width: 768px) {

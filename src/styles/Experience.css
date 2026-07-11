@@ -14,19 +14,19 @@
   transform: translateX(-50%);
   width: 2px;
   height: 100%;
-  background: linear-gradient(180deg, var(--primary), var(--secondary));
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0.08));
   top: 0;
 }
 
 .timeline-item {
   margin-bottom: 3rem;
   position: relative;
-  --company-accent: var(--primary);
-  --company-accent-soft: var(--secondary);
-  --company-surface-from: rgba(99, 102, 241, 0.1);
-  --company-surface-to: rgba(236, 72, 153, 0.05);
-  --company-border: rgba(99, 102, 241, 0.2);
-  --company-glow: rgba(99, 102, 241, 0.15);
+  --company-accent: rgba(255, 255, 255, 0.92);
+  --company-accent-soft: rgba(255, 255, 255, 0.72);
+  --company-surface-from: rgba(255, 255, 255, 0.05);
+  --company-surface-to: rgba(255, 255, 255, 0.02);
+  --company-border: rgba(255, 255, 255, 0.1);
+  --company-glow: rgba(255, 255, 255, 0.08);
 }
 
 .timeline-marker {
@@ -37,7 +37,7 @@
   width: 16px;
   height: 16px;
   background: var(--company-accent);
-  border: 4px solid var(--bg);
+  border: 4px solid #0a0a0a;
   border-radius: 50%;
   z-index: 2;
   box-shadow: 0 0 0 4px var(--company-glow);
@@ -48,7 +48,7 @@
   width: 24px;
   height: 24px;
   top: 1.2rem;
-  box-shadow: 0 0 20px var(--company-accent);
+  box-shadow: 0 0 14px rgba(255, 255, 255, 0.2);
 }
 
 .experience-card {
@@ -70,7 +70,7 @@
 }
 
 .experience-card:hover {
-  border-color: var(--company-accent);
+  border-color: rgba(255, 255, 255, 0.18);
   box-shadow: 0 8px 32px var(--company-glow);
 }
 
@@ -96,7 +96,7 @@
   justify-content: center;
   border-radius: 0.9rem;
   color: var(--company-accent);
-  background: rgba(15, 23, 42, 0.72);
+  background: rgba(255, 255, 255, 0.03);
   border: 1px solid var(--company-border);
   flex-shrink: 0;
 }
@@ -112,7 +112,7 @@
 }
 
 .company {
-  color: var(--company-accent);
+  color: var(--text-muted);
   font-weight: 700;
   margin: 0 0 0.35rem;
   text-transform: uppercase;
@@ -121,7 +121,7 @@
 }
 
 .company-engagement {
-  color: var(--company-accent-soft);
+  color: var(--text-muted);
   font-size: 0.9rem;
   margin: 0 0 0.3rem;
 }
@@ -143,12 +143,12 @@
   white-space: nowrap;
   padding: 0.5rem 0.85rem;
   border-radius: 999px;
-  background: rgba(15, 23, 42, 0.7);
+  background: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--company-border);
 }
 
 .location {
-  color: var(--company-accent-soft);
+  color: var(--text);
   font-weight: 500;
   margin-bottom: 1rem;
 }
@@ -177,7 +177,7 @@
   content: '→';
   position: absolute;
   left: 0;
-  color: var(--company-accent);
+  color: rgba(255, 255, 255, 0.7);
   font-weight: bold;
 }
 

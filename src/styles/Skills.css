@@ -1,5 +1,5 @@
 .skills {
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.5), rgba(51, 65, 85, 0.3));
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.015), transparent);
 }
 
 .category-filter {
@@ -13,8 +13,9 @@
 .filter-btn {
   padding: 0.75rem 1.5rem;
   background: transparent;
-  border: 2px solid rgba(99, 102, 241, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   color: var(--text);
+  background: rgba(255, 255, 255, 0.02);
   border-radius: 2rem;
   cursor: pointer;
   font-weight: 600;
@@ -22,15 +23,16 @@
 }
 
 .filter-btn:hover {
-  border-color: var(--primary);
-  color: var(--primary);
+  border-color: rgba(255, 255, 255, 0.24);
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .filter-btn.active {
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  border-color: transparent;
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.28);
   color: white;
-  box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
 }
 
 .skills-grid {
@@ -40,8 +42,8 @@
 }
 
 .skill-card {
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.05));
-  border: 1px solid rgba(99, 102, 241, 0.2);
+  background: linear-gradient(180deg, var(--surface-strong), var(--surface-soft));
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 1rem;
   padding: 1.5rem;
   backdrop-filter: blur(10px);
@@ -49,9 +51,9 @@
 }
 
 .skill-card:hover {
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(236, 72, 153, 0.1));
-  border-color: rgba(99, 102, 241, 0.5);
-  box-shadow: 0 8px 32px rgba(99, 102, 241, 0.15);
+  background: linear-gradient(180deg, var(--surface-hover), var(--surface));
+  border-color: rgba(255, 255, 255, 0.16);
+  box-shadow: var(--shadow-md);
 }
 
 .skill-info h4 {
@@ -62,7 +64,7 @@
 
 .skill-bar {
   height: 8px;
-  background: rgba(99, 102, 241, 0.1);
+  background: rgba(255, 255, 255, 0.08);
   border-radius: 4px;
   overflow: hidden;
   position: relative;
@@ -70,18 +72,18 @@
 
 .skill-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.95), rgba(212, 212, 212, 0.75));
   border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
   padding-right: 0.5rem;
-  box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.16);
 }
 
 .skill-level {
   font-size: 0.75rem;
-  color: white;
+  color: #0a0a0a;
   font-weight: 700;
 }
 

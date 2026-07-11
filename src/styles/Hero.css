@@ -16,7 +16,7 @@
   right: -10%;
   width: 500px;
   height: 500px;
-  background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
   border-radius: 50%;
   pointer-events: none;
 }
@@ -28,7 +28,7 @@
   left: -10%;
   width: 500px;
   height: 500px;
-  background: radial-gradient(circle, rgba(236, 72, 153, 0.1) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, transparent 70%);
   border-radius: 50%;
   pointer-events: none;
 }
@@ -54,22 +54,13 @@
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: gradientShift 8s ease infinite;
-  background-size: 300% 300%;
-}
-
-@keyframes gradientShift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+  color: var(--text);
+  letter-spacing: -0.04em;
 }
 
 .subtitle {
   font-size: 1.5rem;
-  color: var(--primary);
+  color: var(--primary-dark);
   margin-bottom: 1rem;
   font-weight: 600;
 }
@@ -97,21 +88,21 @@
 }
 
 .code-block {
-  background: rgba(51, 65, 85, 0.3);
-  border: 1px solid rgba(99, 102, 241, 0.3);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 1rem;
   padding: 2rem;
   font-family: 'Courier New', monospace;
   font-size: 0.95rem;
   overflow: hidden;
   backdrop-filter: blur(10px);
-  box-shadow: 0 8px 32px rgba(99, 102, 241, 0.1);
+  box-shadow: var(--shadow-lg);
   max-width: 100%;
   color: var(--text);
 }
 
 .code-block code {
-  color: var(--primary);
+  color: #d4d4d4;
 }
 
 .code-block pre {
@@ -124,7 +115,7 @@
   bottom: 2rem;
   left: 50%;
   transform: translateX(-50%);
-  color: var(--primary);
+  color: var(--text-muted);
   opacity: 0.7;
   animation: pulse 2s ease-in-out infinite;
 }

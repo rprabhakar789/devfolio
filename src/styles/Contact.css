@@ -27,8 +27,8 @@
   align-items: center;
   gap: 1.5rem;
   padding: 1.5rem;
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.05));
-  border: 1px solid rgba(99, 102, 241, 0.2);
+  background: linear-gradient(180deg, var(--surface-strong), var(--surface-soft));
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 1rem;
   text-decoration: none;
   transition: all 0.3s ease;
@@ -36,18 +36,18 @@
 }
 
 .contact-link:hover {
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(236, 72, 153, 0.1));
-  border-color: rgba(99, 102, 241, 0.5);
-  box-shadow: 0 8px 32px rgba(99, 102, 241, 0.15);
+  background: linear-gradient(180deg, var(--surface-hover), var(--surface));
+  border-color: rgba(255, 255, 255, 0.16);
+  box-shadow: var(--shadow-md);
 }
 
 .contact-link svg {
-  color: var(--primary);
+  color: var(--text);
   min-width: 24px;
 }
 
 .contact-link[download] svg {
-  color: var(--accent);
+  color: var(--text);
 }
 
 .link-label {
@@ -75,8 +75,8 @@
 .form-group textarea {
   width: 100%;
   padding: 1rem;
-  background: rgba(99, 102, 241, 0.1);
-  border: 1px solid rgba(99, 102, 241, 0.2);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 0.5rem;
   color: var(--text);
   font-family: inherit;
@@ -92,35 +92,35 @@
 .form-group input:focus,
 .form-group textarea:focus {
   outline: none;
-  background: rgba(99, 102, 241, 0.15);
-  border-color: rgba(99, 102, 241, 0.5);
-  box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.06);
 }
 
 .submit-btn {
   padding: 1rem 2rem;
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  color: white;
-  border: none;
+  background: var(--text);
+  color: var(--bg);
+  border: 1px solid rgba(255, 255, 255, 0.85);
   border-radius: 0.5rem;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+  box-shadow: var(--shadow-md);
 }
 
 .submit-btn:hover {
-  box-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
+  background: #ffffff;
 }
 
 .success-message {
   margin-top: 1rem;
   padding: 1rem;
-  background: rgba(20, 184, 166, 0.1);
-  border: 1px solid rgba(20, 184, 166, 0.5);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 0.5rem;
-  color: var(--accent);
+  color: var(--text);
   text-align: center;
   font-weight: 500;
 }
