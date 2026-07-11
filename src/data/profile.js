@@ -33,20 +33,58 @@ export function getExperienceYears(now = new Date()) {
   return fractionalRemainder > 0.5 ? fullYears + 1 : fullYears;
 }
 
-export const education = {
-  institution: 'National Institute of Technology, Warangal',
-  degree: 'B.Tech in Electronics and Communication',
-  period: '2016 – 2020',
-  scoreLabel: 'CGPA',
-  score: '7.79'
-};
+export const education = [
+  {
+    institution: 'National Institute of Technology, Warangal',
+    degree: 'B.Tech in Electronics and Communication',
+    period: '2016 – 2020',
+    scoreLabel: 'CGPA',
+    score: '7.79'
+  },
+  {
+    institution: 'KDHS Fulkaha',
+    degree: 'Intermediate',
+    period: '2014 – 2016',
+    scoreLabel: 'Score',
+    score: '83.4%'
+  }
+];
 
 export const campusHighlights = [
   {
     title: 'ACM Student Chapter, NIT Warangal',
     description:
-      'Organized coding contests and peer learning sessions, while mentoring juniors to strengthen programming fundamentals and problem-solving skills.'
+      'Organized coding contests and programming sessions, while mentoring juniors to strengthen problem-solving and competitive coding fundamentals.'
   }
+];
+
+export const achievements = [
+  {
+    title: 'Star of the Month',
+    detail: 'Wells Fargo · July 2021'
+  },
+  {
+    title: 'CodeChef',
+    detail: 'Peak rating 2103 · 5-star coder'
+  },
+  {
+    title: 'Codersbit, InterviewBit',
+    detail: 'Rank 2'
+  },
+  {
+    title: "NPL, Technozion '18",
+    detail: 'Inter-college coding contest · Rank 2'
+  },
+  {
+    title: 'Intermediate examination',
+    detail: 'Rank 7 in the state'
+  }
+];
+
+export const impactStats = [
+  { label: 'Server Cost Reduction', value: '60%' },
+  { label: 'Storage Optimization', value: '80%' },
+  { label: 'Query Performance Gain', value: '70%' }
 ];
 
 export const experiences = [
@@ -88,10 +126,12 @@ export const experiences = [
       glow: 'rgba(46, 103, 167, 0.18)'
     },
     highlights: [
-      'Led development of a secure application for encrypted storage and retrieval of sensitive data and files, serving 10+ internal clients using AWS S3, AWS KMS, and REST APIs.',
+      'Took primary ownership of a secure application for encrypted storage and retrieval of sensitive data and files, serving 10+ internal clients using AWS S3, AWS KMS, and REST APIs.',
+      'Built a secure file storage service on AWS S3 with client-side encryption, enabling clients to upload and download sensitive files safely.',
       'Migrated an application to an event-driven architecture with KEDA, reducing server costs by 60% through dynamic scaling.',
+      'Developed a proof of concept to move analytics data to AWS S3 and query it with AWS Athena, achieving 80% storage optimization and up to 90% expected analytics query cost reduction.',
       'Enabled real-time search on PII data across 10M+ records using Lucene Index while preserving confidentiality.',
-      'Optimized database performance, achieving 70% faster query execution by redesigning indexes and refining queries.',
+      'Conducted API performance testing and optimized database queries, achieving up to 70% faster execution times.',
       'Authored automation tests in Python and contributed more than 60% of the application’s automated test coverage.'
     ]
   },

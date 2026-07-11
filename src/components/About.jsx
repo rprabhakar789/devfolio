@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { experiences, getExperienceYears } from '../data/profile';
+import { getExperienceYears, impactStats } from '../data/profile';
 import '../styles/About.css';
 
 function About() {
@@ -39,9 +39,7 @@ function About() {
         >
           {[
             { label: 'Years Experience', value: experienceYears },
-            { label: 'Companies', value: experiences.length },
-            { label: 'Projects Built', value: '25+' },
-            { label: 'Team Members Mentored', value: '10+' }
+            ...impactStats
           ].map((stat, index) => (
             <motion.div
               key={index}

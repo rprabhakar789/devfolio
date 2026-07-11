@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FiMail, FiPhone, FiLinkedin, FiGithub, FiDownload } from 'react-icons/fi';
+import { FiMail, FiLinkedin, FiGithub, FiDownload } from 'react-icons/fi';
 import { RESUME_URL } from '../data/profile';
 import '../styles/Contact.css';
 
@@ -33,12 +33,6 @@ function Contact() {
       label: 'Email',
       value: 'prabh.rahul98@gmail.com',
       href: 'mailto:prabh.rahul98@gmail.com'
-    },
-    {
-      icon: FiPhone,
-      label: 'Phone',
-      value: '+91 8757481789',
-      href: 'tel:+918757481789'
     },
     {
       icon: FiLinkedin,
