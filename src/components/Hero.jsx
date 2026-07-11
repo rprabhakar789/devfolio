@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { FiArrowDown, FiFileText } from 'react-icons/fi';
-import { RESUME_URL } from '../data/profile';
+import { portfolioContent } from '../content/loadContent';
 import '../styles/Hero.css';
 
 function Hero() {
@@ -59,7 +59,7 @@ function Hero() {
               Explore My Work
             </motion.button>
             <motion.a 
-              href={RESUME_URL}
+              href={portfolioContent.resumeUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="btn btn-secondary"

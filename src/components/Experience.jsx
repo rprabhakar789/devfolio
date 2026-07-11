@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { FaMicrosoft } from 'react-icons/fa';
 import { HiOfficeBuilding } from 'react-icons/hi';
 import { SiSamsung, SiWellsfargo } from 'react-icons/si';
-import { experiences } from '../data/profile';
+import { portfolioContent } from '../content/loadContent';
 import '../styles/Experience.css';
 
 function CompanyLogo({ company, logo }) {
@@ -25,22 +25,23 @@ function CompanyLogo({ company, logo }) {
 
 function Experience() {
   const [expandedId, setExpandedId] = useState(null);
+  const { experience: roles } = portfolioContent;
 
   return (
     <section id="experience" className="experience">
       <h2>Experience</h2>
       <div className="timeline">
-        {experiences.map((exp, index) => (
+        {roles.map((exp, index) => (
           <motion.div
             key={exp.id}
             className="timeline-item"
             style={{
-              '--company-accent': exp.theme.accent,
-              '--company-accent-soft': exp.theme.accentSoft,
-              '--company-surface-from': exp.theme.surfaceFrom,
-              '--company-surface-to': exp.theme.surfaceTo,
-              '--company-border': exp.theme.border,
-              '--company-glow': exp.theme.glow
+              '--company-accent': exp.theme?.accent,
+              '--company-accent-soft': exp.theme?.accentSoft,
+              '--company-surface-from': exp.theme?.surfaceFrom,
+              '--company-surface-to': exp.theme?.surfaceTo,
+              '--company-border': exp.theme?.border,
+              '--company-glow': exp.theme?.glow
             }}
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -63,7 +64,7 @@ function Experience() {
                   <div>
                     <p className="company">{exp.company}</p>
                     {exp.engagement && <p className="company-engagement">{exp.engagement}</p>}
-                    <h3>{exp.position}</h3>
+                    <h3>{exp.role}</h3>
                   </div>
                 </div>
                 <div className="period-wrapper">
@@ -80,7 +81,8 @@ function Experience() {
                 }}
                 transition={{ duration: 0.3 }}
               >
-                <p className="location">📍 {exp.location}</p>
+                {exp.location && <p className="location">📍 {exp.location}</p>}
+                {exp.summary && <p className="experience-summary">{exp.summary}</p>}
                 <ul className="highlights">
                   {exp.highlights.map((highlight, i) => (
                     <li key={i}>{highlight}</li>

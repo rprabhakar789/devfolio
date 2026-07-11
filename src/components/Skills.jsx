@@ -1,54 +1,23 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { portfolioContent } from '../content/loadContent';
 import '../styles/Skills.css';
 
 function Skills() {
   const [filter, setFilter] = useState('all');
-
-  const skillsByCategory = {
-    languages: [
-      { name: 'Java', level: 95 },
-      { name: 'Python', level: 90 },
-      { name: 'JavaScript', level: 90 },
-      { name: 'Kotlin', level: 85 },
-      { name: 'C++', level: 85 },
-      { name: 'SQL', level: 92 }
-    ],
-    frameworks: [
-      { name: 'Spring Boot', level: 95 },
-      { name: 'React.js', level: 90 },
-      { name: 'MyBatis', level: 88 },
-      { name: 'Material UI', level: 85 }
-    ],
-    tools: [
-      { name: 'AWS', level: 90 },
-      { name: 'Docker', level: 88 },
-      { name: 'Kubernetes', level: 85 },
-      { name: 'GitHub', level: 95 },
-      { name: 'Kafka', level: 85 },
-      { name: 'ElasticSearch', level: 80 }
-    ],
-    specialties: [
-      { name: 'Microservices', level: 92 },
-      { name: 'System Design', level: 90 },
-      { name: 'Database Optimization', level: 88 },
-      { name: 'AI Agents', level: 85 }
-    ]
-  };
-
   const categories = [
     { id: 'all', label: 'All' },
-    { id: 'languages', label: 'Languages' },
-    { id: 'frameworks', label: 'Frameworks' },
-    { id: 'tools', label: 'Tools & Tech' },
-    { id: 'specialties', label: 'Specialties' }
+    ...portfolioContent.skills.map((category) => ({
+      id: category.id,
+      label: category.category
+    }))
   ];
 
   const getDisplaySkills = () => {
     if (filter === 'all') {
-      return Object.values(skillsByCategory).flat();
+      return portfolioContent.skills.flatMap((category) => category.items);
     }
-    return skillsByCategory[filter] || [];
+    return portfolioContent.skills.find((category) => category.id === filter)?.items || [];
   };
 
   return (
@@ -89,12 +58,13 @@ function Skills() {
                 <motion.div
                   className="skill-fill"
                   initial={{ width: 0 }}
-                  animate={{ width: `${skill.level}%` }}
+                  animate={{ width: `${skill.level ?? 0}%` }}
                   transition={{ duration: 0.8, delay: 0.1 }}
                 >
-                  <span className="skill-level">{skill.level}%</span>
+                  {typeof skill.level === 'number' && <span className="skill-level">{skill.level}%</span>}
                 </motion.div>
               </div>
+              {skill.notes && <p className="skill-note">{skill.notes}</p>}
             </div>
           </motion.div>
         ))}

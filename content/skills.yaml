@@ -1,0 +1,55 @@
+- id: languages
+  category: Languages
+  items:
+    - name: Java
+      level: 95
+    - name: Python
+      level: 90
+    - name: JavaScript
+      level: 90
+    - name: Kotlin
+      level: 85
+    - name: C++
+      level: 85
+    - name: SQL
+      level: 92
+
+- id: frameworks
+  category: Frameworks
+  items:
+    - name: Spring Boot
+      level: 95
+    - name: React.js
+      level: 90
+    - name: MyBatis
+      level: 88
+    - name: Material UI
+      level: 85
+
+- id: tools
+  category: Tools & Tech
+  items:
+    - name: AWS
+      level: 90
+    - name: Docker
+      level: 88
+    - name: Kubernetes
+      level: 85
+    - name: GitHub
+      level: 95
+    - name: Kafka
+      level: 85
+    - name: ElasticSearch
+      level: 80
+
+- id: specialties
+  category: Specialties
+  items:
+    - name: Microservices
+      level: 92
+    - name: System Design
+      level: 90
+    - name: Database Optimization
+      level: 88
+    - name: AI Agents
+      level: 85

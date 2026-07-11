@@ -1,10 +1,17 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FiAward, FiBookOpen } from 'react-icons/fi';
-import { achievements, campusHighlights, education } from '../data/profile';
+import { FiBookOpen } from 'react-icons/fi';
+import { portfolioContent } from '../content/loadContent';
 import '../styles/Education.css';
 
 function Education() {
+  const highlights = portfolioContent.education.flatMap((entry) =>
+    entry.highlights.map((highlight) => ({
+      title: entry.institution,
+      detail: highlight
+    }))
+  );
+
   return (
     <section id="education" className="education">
       <h2>Education</h2>
@@ -18,7 +25,7 @@ function Education() {
         >
           <p className="education-label">Academic background</p>
           <div className="education-list">
-            {education.map((entry) => (
+            {portfolioContent.education.map((entry) => (
               <article key={entry.institution} className="education-card">
                 <div className="education-icon">
                   <FiBookOpen size={24} />
@@ -28,7 +35,7 @@ function Education() {
                   <p className="education-degree">{entry.degree}</p>
                   <div className="education-meta">
                     <span>{entry.period}</span>
-                    <span>{entry.scoreLabel}: {entry.score}</span>
+                    {entry.location && <span>{entry.location}</span>}
                   </div>
                 </div>
               </article>
@@ -45,25 +52,13 @@ function Education() {
         >
           <p className="education-label">Achievements</p>
           <div className="achievement-list">
-            {achievements.map((achievement) => (
-              <article key={achievement.title} className="achievement-card">
-                <h3>{achievement.title}</h3>
-                <p>{achievement.detail}</p>
+            {highlights.map((highlight, index) => (
+              <article key={`${highlight.title}-${index}`} className="achievement-card">
+                <h3>{highlight.title}</h3>
+                <p>{highlight.detail}</p>
               </article>
             ))}
           </div>
-          <p className="education-label education-subheading">Leadership</p>
-          {campusHighlights.map((highlight) => (
-            <article key={highlight.title} className="highlight-card">
-              <div className="highlight-icon">
-                <FiAward size={20} />
-              </div>
-              <div>
-                <h3>{highlight.title}</h3>
-                <p>{highlight.description}</p>
-              </div>
-            </article>
-          ))}
         </motion.div>
       </div>
     </section>

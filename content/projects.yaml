@@ -1,0 +1,61 @@
+- name: TinyUrl
+  summary: A URL shortener application with analytics and custom URLs.
+  technologies:
+    - Java
+    - Spring Boot
+    - Redis
+  category: backend
+  featured: true
+  links:
+    github: https://github.com/rprabhakar789/TinyUrl
+
+- name: FileManager
+  summary: In-memory file manager system with CRUD operations.
+  technologies:
+    - Java
+    - Data Structures
+  category: backend
+  featured: true
+  links:
+    github: https://github.com/rprabhakar789/FileManager
+
+- name: Splitwise LLD
+  summary: Low-level design of a bill-splitting application.
+  technologies:
+    - System Design
+    - Java
+  category: system-design
+  featured: true
+  links:
+    github: https://github.com/rprabhakar789/Splitwise
+
+- name: KnowYourTools
+  summary: Curated collection of essential commands and configurations.
+  technologies:
+    - Documentation
+    - DevOps
+  category: tools
+  featured: true
+  links:
+    github: https://github.com/rprabhakar789/KnowYourTools
+
+- name: Stocker
+  summary: Full-stack app displaying stock information from a dummy API.
+  technologies:
+    - React
+    - Node.js
+    - APIs
+  category: fullstack
+  featured: true
+  links:
+    github: https://github.com/rprabhakar789/stocker
+
+- name: Todo CLI
+  summary: C++ command-line task management application.
+  technologies:
+    - C++
+    - CLI
+  category: tools
+  featured: true
+  links:
+    github: https://github.com/rprabhakar789/Todo-CLI

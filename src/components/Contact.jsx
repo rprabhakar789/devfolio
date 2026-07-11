@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FiMail, FiLinkedin, FiGithub, FiDownload } from 'react-icons/fi';
-import { RESUME_URL } from '../data/profile';
+import { FiDownload, FiGithub, FiLinkedin, FiMail, FiMapPin, FiPhone } from 'react-icons/fi';
+import { portfolioContent } from '../content/loadContent';
 import '../styles/Contact.css';
 
 function Contact() {
@@ -27,33 +27,43 @@ function Contact() {
     setFormData({ name: '', email: '', message: '' });
   };
 
+  const iconByKey = {
+    email: FiMail,
+    linkedin: FiLinkedin,
+    github: FiGithub,
+    resume: FiDownload,
+    phone: FiPhone,
+    location: FiMapPin
+  };
   const contactLinks = [
     {
-      icon: FiMail,
+      key: 'email',
       label: 'Email',
-      value: 'prabh.rahul98@gmail.com',
-      href: 'mailto:prabh.rahul98@gmail.com'
+      value: portfolioContent.contact.email,
+      href: `mailto:${portfolioContent.contact.email}`
     },
-    {
-      icon: FiLinkedin,
-      label: 'LinkedIn',
-      value: 'linkedin.com/in/rp789',
-      href: 'https://linkedin.com/in/rp789'
-    },
-    {
-      icon: FiGithub,
-      label: 'GitHub',
-      value: 'github.com/rprabhakar789',
-      href: 'https://github.com/rprabhakar789'
-    },
-    {
-      icon: FiDownload,
-      label: 'Resume',
-      value: 'View or download PDF',
-      href: RESUME_URL,
-      download: true
-    }
+    ...portfolioContent.contact.links.map((link) => ({
+      ...link,
+      key: link.key,
+      download: link.key === 'resume'
+    }))
   ];
+  if (portfolioContent.contact.phone) {
+    contactLinks.push({
+      key: 'phone',
+      label: 'Phone',
+      value: portfolioContent.contact.phone,
+      href: `tel:${portfolioContent.contact.phone}`
+    });
+  }
+  if (portfolioContent.contact.location) {
+    contactLinks.push({
+      key: 'location',
+      label: 'Location',
+      value: portfolioContent.contact.location,
+      href: '#'
+    });
+  }
 
   return (
     <section id="contact" className="contact">
@@ -69,16 +79,19 @@ function Contact() {
         >
           <h3>Get in Touch</h3>
           <div className="links-grid">
-            {contactLinks.map((link, index) => {
-              const Icon = link.icon;
+            {contactLinks.map((link) => {
+              const Icon = iconByKey[link.key] || FiMail;
+              const isLocation = link.key === 'location';
+              const isHttpLink = /^https?:\/\//i.test(link.href);
               return (
                 <motion.a
-                  key={index}
+                  key={link.key}
                   href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  target={isHttpLink ? '_blank' : undefined}
+                  rel={isHttpLink ? 'noopener noreferrer' : undefined}
                   download={link.download ? 'Rahul-Prabhakar-Resume.pdf' : undefined}
                   className="contact-link"
+                  onClick={isLocation ? (event) => event.preventDefault() : undefined}
                   whileHover={{ scale: 1.05, x: 10 }}
                   whileTap={{ scale: 0.95 }}
                 >
