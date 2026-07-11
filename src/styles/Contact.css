@@ -44,10 +44,27 @@
 .contact-link svg {
   color: var(--text);
   min-width: 24px;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.contact-link:hover svg {
+  transform: translateY(-1px);
+}
+
+.contact-link[href^="mailto:"] svg {
+  color: #f59e0b;
+}
+
+.contact-link[href*="linkedin.com"] svg {
+  color: #0a66c2;
+}
+
+.contact-link[href*="github.com"] svg {
+  color: #d4d4d4;
 }
 
 .contact-link[download] svg {
-  color: var(--text);
+  color: #34d399;
 }
 
 .link-label {

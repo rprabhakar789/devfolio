@@ -116,10 +116,20 @@
   transition: all 0.3s ease;
 }
 
+.project-link svg {
+  color: #d4d4d4;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
 .project-link:hover {
   background: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.18);
   color: white;
+}
+
+.project-link:hover svg {
+  color: #f5f5f5;
+  transform: translateX(1px);
 }
 
 @media (max-width: 768px) {

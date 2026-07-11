@@ -36,12 +36,12 @@ function Experience() {
             key={exp.id}
             className="timeline-item"
             style={{
-              '--company-accent': 'rgba(255, 255, 255, 0.92)',
-              '--company-accent-soft': 'rgba(255, 255, 255, 0.72)',
+              '--company-accent': exp.theme?.accent || 'rgba(255, 255, 255, 0.92)',
+              '--company-accent-soft': exp.theme?.accentSoft || exp.theme?.accent || 'rgba(255, 255, 255, 0.72)',
               '--company-surface-from': 'rgba(255, 255, 255, 0.05)',
               '--company-surface-to': 'rgba(255, 255, 255, 0.02)',
               '--company-border': 'rgba(255, 255, 255, 0.1)',
-              '--company-glow': 'rgba(255, 255, 255, 0.08)'
+              '--company-glow': exp.theme?.glow || 'rgba(255, 255, 255, 0.08)'
             }}
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
