@@ -23,14 +23,14 @@
 }
 
 .filter-btn:hover {
-  border-color: rgba(255, 255, 255, 0.24);
+  border-color: rgba(214, 181, 122, 0.26);
   color: var(--text);
   background: rgba(255, 255, 255, 0.05);
 }
 
 .filter-btn.active {
   background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.28);
+  border-color: rgba(214, 181, 122, 0.32);
   color: white;
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
 }
@@ -52,7 +52,7 @@
 
 .skill-card:hover {
   background: linear-gradient(180deg, var(--surface-hover), var(--surface));
-  border-color: rgba(255, 255, 255, 0.16);
+  border-color: rgba(214, 181, 122, 0.2);
   box-shadow: var(--shadow-md);
 }
 
@@ -72,7 +72,7 @@
 
 .skill-fill {
   height: 100%;
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0.95), rgba(212, 212, 212, 0.75));
+  background: linear-gradient(90deg, rgba(243, 234, 219, 0.95), rgba(214, 181, 122, 0.78));
   border-radius: 4px;
   display: flex;
   align-items: center;

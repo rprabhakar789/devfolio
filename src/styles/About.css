@@ -48,12 +48,29 @@
   text-align: center;
   backdrop-filter: blur(10px);
   transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(110deg, transparent, rgba(214, 181, 122, 0.16), transparent);
+  transition: left 0.45s ease;
 }
 
 .stat-card:hover {
   background: linear-gradient(180deg, var(--surface-hover), var(--surface));
-  border-color: rgba(255, 255, 255, 0.16);
+  border-color: rgba(214, 181, 122, 0.2);
   box-shadow: var(--shadow-md);
+}
+
+.stat-card:hover::before {
+  left: 130%;
 }
 
 .stat-value {

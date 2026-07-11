@@ -37,7 +37,7 @@
 
 .contact-link:hover {
   background: linear-gradient(180deg, var(--surface-hover), var(--surface));
-  border-color: rgba(255, 255, 255, 0.16);
+  border-color: rgba(214, 181, 122, 0.24);
   box-shadow: var(--shadow-md);
 }
 
@@ -128,7 +128,8 @@
 }
 
 .submit-btn:hover {
-  background: #ffffff;
+  background: #f3eadb;
+  transform: translateY(-1px);
 }
 
 .success-message {

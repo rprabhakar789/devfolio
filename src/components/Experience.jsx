@@ -30,6 +30,9 @@ function Experience() {
   return (
     <section id="experience" className="experience">
       <h2>Experience</h2>
+      <p className="experience-intro">
+        A journey from early product building to secure platforms and AI-driven engineering impact.
+      </p>
       <div className="timeline">
         {roles.map((exp, index) => (
           <motion.div
@@ -50,6 +53,9 @@ function Experience() {
             transition={{ duration: 0.5, delay: index * 0.1 }}
             viewport={{ once: true }}
           >
+            <p className="timeline-chapter">
+              Chapter {String(index + 1).padStart(2, '0')}
+            </p>
             <div className="timeline-marker"></div>
 
             <motion.div
@@ -66,6 +72,7 @@ function Experience() {
                   <div>
                     <p className="company">{exp.company}</p>
                     {exp.engagement && <p className="company-engagement">{exp.engagement}</p>}
+                    <p className="story-stage">{index === 0 ? 'Current chapter' : 'Career chapter'}</p>
                     <h3>{exp.role}</h3>
                   </div>
                 </div>
@@ -85,6 +92,7 @@ function Experience() {
               >
                 {exp.location && <p className="location">📍 {exp.location}</p>}
                 {exp.summary && <p className="experience-summary">{exp.summary}</p>}
+                <p className="detail-label">What I worked on</p>
                 <ul className="highlights">
                   {exp.highlights.map((highlight, i) => (
                     <li key={i}>{highlight}</li>

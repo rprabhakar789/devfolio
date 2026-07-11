@@ -47,9 +47,9 @@ function Skills() {
             key={`${filter}-${skill.name}`}
             className="skill-card"
             initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3, delay: index * 0.05 }}
+            viewport={{ once: true, amount: 0.2 }}
             whileHover={{ y: -5 }}
           >
             <div className="skill-info">

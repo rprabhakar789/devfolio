@@ -2,6 +2,14 @@
   position: relative;
 }
 
+.education-intro {
+  max-width: 760px;
+  margin: -1.2rem auto 2rem;
+  text-align: center;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
 .education-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
@@ -21,6 +29,7 @@
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 1rem;
   backdrop-filter: blur(12px);
+  transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
 }
 
 .education-card {
@@ -28,6 +37,24 @@
   gap: 1.5rem;
   padding: 2rem;
   min-height: 100%;
+  position: relative;
+}
+
+.education-card:hover,
+.achievement-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(214, 181, 122, 0.2);
+  box-shadow: var(--shadow-md);
+}
+
+.education-step {
+  position: absolute;
+  top: 0.8rem;
+  right: 1rem;
+  font-size: 0.67rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: rgba(214, 181, 122, 0.76);
 }
 
 .education-icon,
@@ -96,6 +123,14 @@
 
 .achievement-card {
   padding: 1.35rem 1.5rem;
+}
+
+.achievement-kicker {
+  font-size: 0.67rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: rgba(214, 181, 122, 0.76);
+  margin-bottom: 0.45rem;
 }
 
 .achievement-card h3 {

@@ -15,6 +15,9 @@ function Education() {
   return (
     <section id="education" className="education">
       <h2>Education</h2>
+      <p className="education-intro">
+        Academic milestones that shaped my engineering foundation and problem-solving mindset.
+      </p>
 
       <div className="education-grid">
         <motion.div
@@ -25,8 +28,9 @@ function Education() {
         >
           <p className="education-label">Academic background</p>
           <div className="education-list">
-            {portfolioContent.education.map((entry) => (
+            {portfolioContent.education.map((entry, index) => (
               <article key={entry.institution} className="education-card">
+                <p className="education-step">Milestone {String(index + 1).padStart(2, '0')}</p>
                 <div className="education-icon">
                   <FiBookOpen size={24} />
                 </div>
@@ -54,6 +58,7 @@ function Education() {
           <div className="achievement-list">
             {highlights.map((highlight, index) => (
               <article key={`${highlight.title}-${index}`} className="achievement-card">
+                <p className="achievement-kicker">Chapter highlight</p>
                 <h3>{highlight.title}</h3>
                 <p>{highlight.detail}</p>
               </article>
