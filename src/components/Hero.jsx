@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FiArrowDown } from 'react-icons/fi';
+import { FiArrowDown, FiFileText } from 'react-icons/fi';
+import { RESUME_URL } from '../data/profile';
 import '../styles/Hero.css';
 
 function Hero() {
@@ -57,6 +58,17 @@ function Hero() {
             >
               Explore My Work
             </motion.button>
+            <motion.a 
+              href={RESUME_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-secondary"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <FiFileText size={18} />
+              View Resume
+            </motion.a>
             <motion.a 
               href="https://github.com/rprabhakar789"
               target="_blank"

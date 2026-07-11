@@ -1,0 +1,103 @@
+.education {
+  position: relative;
+}
+
+.education-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: 2rem;
+}
+
+.education-card,
+.highlight-card {
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.12), rgba(99, 102, 241, 0.08));
+  border: 1px solid rgba(45, 212, 191, 0.2);
+  border-radius: 1rem;
+  backdrop-filter: blur(12px);
+}
+
+.education-card {
+  display: flex;
+  gap: 1.5rem;
+  padding: 2rem;
+  min-height: 100%;
+}
+
+.education-icon,
+.highlight-icon {
+  width: 3rem;
+  height: 3rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.85rem;
+  color: var(--accent);
+  background: rgba(20, 184, 166, 0.12);
+  border: 1px solid rgba(45, 212, 191, 0.22);
+  flex-shrink: 0;
+}
+
+.education-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.education-label {
+  color: var(--accent);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.9rem;
+}
+
+.education-card h3,
+.highlight-card h3 {
+  font-size: 1.4rem;
+  color: var(--text);
+  margin-bottom: 0.4rem;
+}
+
+.education-degree,
+.highlight-card p {
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+.education-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.education-meta span {
+  padding: 0.45rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.65);
+  border: 1px solid rgba(45, 212, 191, 0.16);
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+.education-highlights {
+  display: flex;
+  flex-direction: column;
+}
+
+.highlight-card {
+  display: flex;
+  gap: 1rem;
+  padding: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .education-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .education-card {
+    flex-direction: column;
+  }
+}

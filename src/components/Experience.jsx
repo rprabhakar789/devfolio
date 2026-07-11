@@ -1,51 +1,30 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { FaMicrosoft } from 'react-icons/fa';
+import { HiOfficeBuilding } from 'react-icons/hi';
+import { SiSamsung, SiWellsfargo } from 'react-icons/si';
+import { experiences } from '../data/profile';
 import '../styles/Experience.css';
+
+function CompanyLogo({ company, logo }) {
+  switch (logo) {
+    case 'microsoft':
+      return <FaMicrosoft aria-label={`${company} logo`} />;
+    case 'samsung':
+      return <SiSamsung aria-label={`${company} logo`} />;
+    case 'wells-fargo':
+      return <SiWellsfargo aria-label={`${company} logo`} />;
+    case 'arcesium':
+      return <span className="company-monogram" aria-label={`${company} logo`}>A</span>;
+    case 'enliven':
+      return <span className="company-monogram" aria-label={`${company} logo`}>E</span>;
+    default:
+      return <HiOfficeBuilding aria-label={`${company} logo`} />;
+  }
+}
 
 function Experience() {
   const [expandedId, setExpandedId] = useState(null);
-
-  const experiences = [
-    {
-      id: 1,
-      company: 'Microsoft',
-      position: 'Software Engineer II',
-      period: 'May 2025 – Current',
-      location: 'Hyderabad',
-      highlights: [
-        'Re-architected application for seamless, deployment-free client onboarding',
-        'Spearheaded AI agent-driven development initiatives with automated test generation',
-        'Integrated AI agents with GitHub for end-to-end autonomous task execution',
-        'Implemented bulk file upload supporting 20k records per batch'
-      ]
-    },
-    {
-      id: 2,
-      company: 'Arcesium',
-      position: 'Senior Software Engineer',
-      period: 'May 2022 – May 2025',
-      location: 'Hyderabad',
-      highlights: [
-        'Led development of secure encrypted storage application serving 10+ clients',
-        'Migrated to event-driven architecture, reducing costs by 60%',
-        'Enabled real-time search on 10M+ PII records using Lucene Index',
-        'Optimized database performance, achieving 70% faster queries'
-      ]
-    },
-    {
-      id: 3,
-      company: 'Wells Fargo',
-      position: 'Software Engineer',
-      period: 'Jan 2021 – Apr 2022',
-      location: 'Hyderabad',
-      highlights: [
-        'Delivered Java Spring application for foreign exchange trade reporting',
-        'Automated batch job failure monitoring, saving 2 hours daily',
-        'Improved security with Spring Security, resolved severity-2 vulnerability',
-        'Built React web application for CMaaS'
-      ]
-    }
-  ];
 
   return (
     <section id="experience" className="experience">
@@ -55,13 +34,21 @@ function Experience() {
           <motion.div
             key={exp.id}
             className="timeline-item"
+            style={{
+              '--company-accent': exp.theme.accent,
+              '--company-accent-soft': exp.theme.accentSoft,
+              '--company-surface-from': exp.theme.surfaceFrom,
+              '--company-surface-to': exp.theme.surfaceTo,
+              '--company-border': exp.theme.border,
+              '--company-glow': exp.theme.glow
+            }}
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
             viewport={{ once: true }}
           >
             <div className="timeline-marker"></div>
-            
+
             <motion.div
               className={`experience-card ${expandedId === exp.id ? 'expanded' : ''}`}
               onClick={() => setExpandedId(expandedId === exp.id ? null : exp.id)}
@@ -69,11 +56,19 @@ function Experience() {
               transition={{ duration: 0.3 }}
             >
               <div className="experience-header">
-                <div>
-                  <h3>{exp.position}</h3>
-                  <p className="company">{exp.company}</p>
+                <div className="company-brand">
+                  <div className="company-logo">
+                    <CompanyLogo company={exp.company} logo={exp.logo} />
+                  </div>
+                  <div>
+                    <p className="company">{exp.company}</p>
+                    {exp.engagement && <p className="company-engagement">{exp.engagement}</p>}
+                    <h3>{exp.position}</h3>
+                  </div>
                 </div>
-                <div className="period">{exp.period}</div>
+                <div className="period-wrapper">
+                  <div className="period">{exp.period}</div>
+                </div>
               </div>
 
               <motion.div

@@ -46,6 +46,10 @@
   min-width: 24px;
 }
 
+.contact-link[download] svg {
+  color: var(--accent);
+}
+
 .link-label {
   font-size: 0.9rem;
   color: var(--text-muted);

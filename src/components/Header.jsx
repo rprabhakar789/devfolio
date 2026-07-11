@@ -38,7 +38,7 @@ function Header({ scrollPosition }) {
         </button>
 
         <nav className={`nav ${isOpen ? 'open' : ''}`}>
-          {['home', 'about', 'experience', 'skills', 'projects', 'contact'].map((item) => (
+          {['home', 'about', 'education', 'experience', 'skills', 'projects', 'contact'].map((item) => (
             <button
               key={item}
               className="nav-link"

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FiMail, FiPhone, FiLinkedin, FiGithub } from 'react-icons/fi';
+import { FiMail, FiPhone, FiLinkedin, FiGithub, FiDownload } from 'react-icons/fi';
+import { RESUME_URL } from '../data/profile';
 import '../styles/Contact.css';
 
 function Contact() {
@@ -50,6 +51,13 @@ function Contact() {
       label: 'GitHub',
       value: 'github.com/rprabhakar789',
       href: 'https://github.com/rprabhakar789'
+    },
+    {
+      icon: FiDownload,
+      label: 'Resume',
+      value: 'View or download PDF',
+      href: RESUME_URL,
+      download: true
     }
   ];
 
@@ -75,6 +83,7 @@ function Contact() {
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
+                  download={link.download ? 'Rahul-Prabhakar-Resume.pdf' : undefined}
                   className="contact-link"
                   whileHover={{ scale: 1.05, x: 10 }}
                   whileTap={{ scale: 0.95 }}
