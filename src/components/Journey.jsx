@@ -48,8 +48,8 @@ function getStopPositions(count) {
     return [{ x: 40, y: 50 }];
   }
 
-  const yStart = 10;
-  const yEnd = 92;
+  const yStart = 6;
+  const yEnd = 96;
   const step = (yEnd - yStart) / (count - 1);
 
   return Array.from({ length: count }, (_, index) => ({
