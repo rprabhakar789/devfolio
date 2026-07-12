@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { FaMicrosoft } from 'react-icons/fa';
 import { FiBookOpen } from 'react-icons/fi';
 import { HiOfficeBuilding } from 'react-icons/hi';
@@ -106,7 +106,7 @@ function StopIcon({ stop }) {
 
 function Journey() {
   const reduceMotion = useReducedMotion();
-  const stepRefs = useRef([]);
+  const cardRefs = useRef([]);
   const [activeIndex, setActiveIndex] = useState(0);
 
   const journeyStops = useMemo(() => {
@@ -152,11 +152,10 @@ function Journey() {
   const stopPositions = useMemo(() => getStopPositions(journeyStops.length), [journeyStops.length]);
   const routePath = useMemo(() => buildRoutePath(stopPositions), [stopPositions]);
   const progress = journeyStops.length > 1 ? activeIndex / (journeyStops.length - 1) : 1;
-  const activeStop = journeyStops[activeIndex] ?? journeyStops[0];
 
   useEffect(() => {
     const updateActiveIndex = () => {
-      if (!stepRefs.current.length) {
+      if (!cardRefs.current.length) {
         return;
       }
 
@@ -164,13 +163,13 @@ function Journey() {
       let closestDistance = Number.POSITIVE_INFINITY;
       const viewportCenter = window.innerHeight / 2;
 
-      stepRefs.current.forEach((step, index) => {
-        if (!step) {
+      cardRefs.current.forEach((card, index) => {
+        if (!card) {
           return;
         }
-        const rect = step.getBoundingClientRect();
-        const stepCenter = rect.top + rect.height / 2;
-        const distance = Math.abs(stepCenter - viewportCenter);
+        const rect = card.getBoundingClientRect();
+        const cardCenter = rect.top + rect.height / 2;
+        const distance = Math.abs(cardCenter - viewportCenter);
 
         if (distance < closestDistance) {
           closestDistance = distance;
@@ -248,8 +247,8 @@ function Journey() {
               className="journey-nav-arrow"
               initial={false}
               animate={{
-                top: `calc(${stopPositions[activeIndex]?.y ?? 50}% - 11px)`,
-                left: `${(stopPositions[activeIndex]?.x ?? 40) + 16}px`
+                top: `calc(${stopPositions[activeIndex]?.y ?? 50}% + 18px)`,
+                left: `${(stopPositions[activeIndex]?.x ?? 40) - 10}px`
               }}
               transition={{ duration: reduceMotion ? 0 : 0.4, ease: 'easeInOut' }}
             />
@@ -257,60 +256,59 @@ function Journey() {
         </div>
 
         <div className="journey-right-column">
-          <div className="journey-right-sticky">
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.article
-                key={activeStop?.id}
-                className="journey-detail-card active"
-                initial={reduceMotion ? false : { opacity: 0, y: 24, scale: 0.96 }}
-                animate={reduceMotion ? {} : { opacity: 1, y: 0, scale: 1 }}
-                exit={reduceMotion ? {} : { opacity: 0, y: -16, scale: 0.97 }}
-                transition={{ duration: reduceMotion ? 0 : 0.4, ease: 'easeOut' }}
-              >
-                <p className="journey-detail-kicker">
-                  {activeStop?.label} · Stop {String(activeIndex + 1).padStart(2, '0')}
-                </p>
-                <h3>{activeStop?.title}</h3>
-                <p className="journey-detail-subtitle">{activeStop?.subtitle}</p>
-                <div className="journey-detail-meta">
-                  <span>{activeStop?.period}</span>
-                  {activeStop?.location && <span>{activeStop.location}</span>}
-                </div>
+          {journeyStops.map((stop, index) => {
+            const isActive = index === activeIndex;
+            const highlights = stop.achievements.slice(0, 5);
 
-                {(activeStop?.achievements || []).slice(0, 5).length > 0 && (
-                  <ul className="journey-achievements">
-                    {activeStop.achievements.slice(0, 5).map((achievement, achievementIndex) => (
-                      <li key={`${activeStop.id}-achievement-${achievementIndex}`}>{achievement}</li>
-                    ))}
-                  </ul>
-                )}
-
-                {(activeStop?.stack || []).length > 0 && (
-                  <div className="journey-stack">
-                    {activeStop.stack.map((tech, techIndex) => (
-                      <span key={`${activeStop.id}-tech-${techIndex}`} className="journey-stack-chip">
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                )}
-
-                {activeStop?.highlightBlock && <p className="journey-highlight-block">{activeStop.highlightBlock}</p>}
-              </motion.article>
-            </AnimatePresence>
-          </div>
-
-          <div className="journey-scroll-track" aria-hidden="true">
-            {journeyStops.map((stop, index) => (
-              <div
-                key={`${stop.id}-step`}
-                className="journey-scroll-step"
+            return (
+              <article
+                key={stop.id}
+                className="journey-panel"
                 ref={(element) => {
-                  stepRefs.current[index] = element;
+                  cardRefs.current[index] = element;
                 }}
-              />
-            ))}
-          </div>
+              >
+                <motion.div
+                  className={`journey-detail-card ${isActive ? 'active' : 'collapsed'}`}
+                  initial={false}
+                  animate={reduceMotion ? {} : { opacity: isActive ? 1 : 0.78, y: isActive ? 0 : 12 }}
+                  transition={{ duration: reduceMotion ? 0 : 0.35, ease: 'easeOut' }}
+                >
+                  <p className="journey-detail-kicker">
+                    {stop.label} · Stop {String(index + 1).padStart(2, '0')}
+                  </p>
+                  <h3>{stop.title}</h3>
+                  <p className="journey-detail-subtitle">{stop.subtitle}</p>
+                  <div className="journey-detail-meta">
+                    <span>{stop.period}</span>
+                    {stop.location && <span>{stop.location}</span>}
+                  </div>
+
+                  <div className={`journey-detail-body ${isActive ? 'expanded' : 'hidden'}`}>
+                    {highlights.length > 0 && (
+                      <ul className="journey-achievements">
+                        {highlights.map((achievement, achievementIndex) => (
+                          <li key={`${stop.id}-achievement-${achievementIndex}`}>{achievement}</li>
+                        ))}
+                      </ul>
+                    )}
+
+                    {stop.stack.length > 0 && (
+                      <div className="journey-stack">
+                        {stop.stack.map((tech, techIndex) => (
+                          <span key={`${stop.id}-tech-${techIndex}`} className="journey-stack-chip">
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+
+                    {stop.highlightBlock && <p className="journey-highlight-block">{stop.highlightBlock}</p>}
+                  </div>
+                </motion.div>
+              </article>
+            );
+          })}
         </div>
       </div>
     </section>

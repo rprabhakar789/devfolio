@@ -133,9 +133,9 @@
   position: absolute;
   width: 0;
   height: 0;
-  border-top: 11px solid transparent;
-  border-bottom: 11px solid transparent;
-  border-left: 16px solid #4285f4;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 14px solid #4285f4;
   filter: drop-shadow(0 4px 9px rgba(66, 133, 244, 0.35));
   z-index: 3;
 }
@@ -145,20 +145,11 @@
   min-width: 0;
 }
 
-.journey-right-sticky {
-  position: sticky;
-  top: 6.4rem;
-  height: calc(100vh - 8rem);
+.journey-panel {
+  min-height: 100vh;
   display: flex;
   align-items: center;
-}
-
-.journey-scroll-track {
-  margin-top: calc(-1 * (100vh - 8rem));
-}
-
-.journey-scroll-step {
-  height: 100vh;
+  padding: 1rem 0;
 }
 
 .journey-detail-card {
@@ -174,6 +165,11 @@
 .journey-detail-card.active {
   border-color: rgba(66, 133, 244, 0.22);
   box-shadow: 0 22px 40px rgba(29, 22, 16, 0.13);
+}
+
+.journey-detail-card.collapsed {
+  border-color: rgba(106, 84, 49, 0.1);
+  box-shadow: 0 10px 20px rgba(29, 22, 16, 0.08);
 }
 
 .journey-detail-kicker {
@@ -217,6 +213,23 @@
   display: flex;
   flex-direction: column;
   gap: 0.54rem;
+}
+
+.journey-detail-body {
+  overflow: hidden;
+  transition: max-height 0.4s ease, opacity 0.3s ease, margin-top 0.3s ease;
+}
+
+.journey-detail-body.expanded {
+  max-height: 900px;
+  opacity: 1;
+  margin-top: 0.1rem;
+}
+
+.journey-detail-body.hidden {
+  max-height: 0;
+  opacity: 0;
+  margin-top: 0;
 }
 
 .journey-achievements li {
@@ -271,19 +284,9 @@
     display: none;
   }
 
-  .journey-right-sticky {
-    position: static;
-    height: auto;
-    margin-bottom: 0.9rem;
-  }
-
-  .journey-scroll-track {
-    margin-top: 0;
-  }
-
-  .journey-scroll-step {
-    height: auto;
-    min-height: 1px;
+  .journey-panel {
+    min-height: auto;
+    padding: 0.6rem 0 1rem;
   }
 
   .journey-detail-card {
