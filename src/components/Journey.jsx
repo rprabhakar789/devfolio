@@ -87,7 +87,7 @@ function Journey() {
   }, []);
 
   const stops = useMemo(() => {
-    const routePattern = [16, 80, 26, 76];
+    const routePattern = [44, 57, 46, 56];
     const total = journeyItems.length;
     const top = 8;
     const bottom = 92;
@@ -106,6 +106,28 @@ function Journey() {
     }
     return stops.map((stop, index) => `${index === 0 ? 'M' : 'L'} ${stop.x} ${stop.y}`).join(' ');
   }, [stops]);
+
+  const activeDetailPosition = useMemo(() => {
+    const stop = stops[activeIndex];
+    if (!stop) {
+      return {
+        left: '12%',
+        top: '12%'
+      };
+    }
+
+    const originX = stop.x >= 52 ? 'right' : 'left';
+    const cardLeft = originX === 'left'
+      ? clamp(stop.x + 6, 8, 56)
+      : clamp(stop.x - 52, 8, 56);
+    const cardTop = clamp(stop.y - 8, 6, 76);
+
+    return {
+      left: `${cardLeft}%`,
+      top: `${cardTop}%`,
+      originX
+    };
+  }, [stops, activeIndex]);
 
   useEffect(() => {
     if (stops.length <= 1) {
@@ -196,6 +218,47 @@ function Journey() {
               </motion.button>
             );
           })}
+
+          <div className="journey-mobile-details">
+            <AnimatePresence mode="wait">
+              {activeStop && (
+                <motion.article
+                  key={`${activeStop.id}-mobile`}
+                  className="journey-detail-card"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: reduceMotion ? 0 : 0.28, ease: 'easeOut' }}
+                >
+                  <p className="journey-detail-kicker">
+                    {activeStop.label} · Stop {activeStop.stopNumber}
+                  </p>
+                  <h3>{activeStop.title}</h3>
+                  <p className="journey-detail-subtitle">{activeStop.subtitle}</p>
+                  <div className="journey-detail-meta">
+                    <span>{activeStop.period}</span>
+                    {activeStop.location && (
+                      <span className="journey-detail-location">
+                        <FiMapPin size={12} />
+                        {activeStop.location}
+                      </span>
+                    )}
+                  </div>
+                  {activeStop.context && <p className="journey-detail-context">{activeStop.context}</p>}
+                  {visibleHighlights.length > 0 && (
+                    <>
+                      <p className="journey-detail-label">Destination highlights</p>
+                      <ul className="journey-detail-highlights">
+                        {visibleHighlights.map((highlight, index) => (
+                          <li key={index}>{highlight}</li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
+                </motion.article>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
 
         <div className="journey-details-panel" aria-live="polite">
@@ -203,7 +266,8 @@ function Journey() {
             {activeStop && (
               <motion.article
                 key={activeStop.id}
-                className="journey-detail-card"
+                className={`journey-detail-card ${activeDetailPosition.originX === 'right' ? 'from-right' : 'from-left'}`}
+                style={{ left: activeDetailPosition.left, top: activeDetailPosition.top }}
                 initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
