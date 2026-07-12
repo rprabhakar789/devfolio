@@ -1,6 +1,9 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import { FiBookOpen, FiBriefcase, FiMapPin, FiNavigation } from 'react-icons/fi';
+import React, { useMemo } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
+import { FaMicrosoft } from 'react-icons/fa';
+import { FiBookOpen } from 'react-icons/fi';
+import { HiOfficeBuilding } from 'react-icons/hi';
+import { SiSamsung, SiWellsfargo } from 'react-icons/si';
 import { portfolioContent } from '../content/loadContent';
 import '../styles/Journey.css';
 
@@ -40,270 +43,122 @@ function getStartTimestamp(period = '') {
   return Number.MAX_SAFE_INTEGER;
 }
 
-function clamp(value, min, max) {
-  return Math.min(max, Math.max(min, value));
+function StopIcon({ stop }) {
+  if (stop.kind === 'education') {
+    return <FiBookOpen size={16} aria-label={`${stop.title} education`} />;
+  }
+
+  switch (stop.logo) {
+    case 'microsoft':
+      return <FaMicrosoft size={16} aria-label={`${stop.title} logo`} />;
+    case 'samsung':
+      return <SiSamsung size={16} aria-label={`${stop.title} logo`} />;
+    case 'wells-fargo':
+      return <SiWellsfargo size={16} aria-label={`${stop.title} logo`} />;
+    case 'arcesium':
+      return <span className="journey-badge-monogram" aria-label={`${stop.title} logo`}>A</span>;
+    case 'enliven':
+      return <span className="journey-badge-monogram" aria-label={`${stop.title} logo`}>E</span>;
+    default:
+      return <HiOfficeBuilding size={16} aria-label={`${stop.title} logo`} />;
+  }
 }
 
 function Journey() {
   const reduceMotion = useReducedMotion();
-  const sectionRef = useRef(null);
-  const [activeIndex, setActiveIndex] = useState(0);
 
-  const journeyItems = useMemo(() => {
-    const educationItems = portfolioContent.education.map((entry, index) => ({
+  const journeyStops = useMemo(() => {
+    const educationStops = portfolioContent.education.map((entry, index) => ({
       id: `education-${index}`,
       kind: 'education',
-      label: 'Education stop',
+      label: 'Education',
       title: entry.institution,
       subtitle: entry.degree,
       period: entry.period,
       location: entry.location,
       context: '',
+      logo: 'education',
       highlights: entry.highlights || [],
       startTimestamp: getStartTimestamp(entry.period),
       orderWeight: 1
     }));
 
-    const experienceItems = portfolioContent.experience.map((entry, index) => ({
+    const experienceStops = portfolioContent.experience.map((entry, index) => ({
       id: `experience-${entry.id || index}`,
       kind: 'experience',
-      label: 'Work stop',
+      label: 'Work',
       title: entry.company,
       subtitle: entry.role,
       period: entry.period,
       location: entry.location,
       context: entry.engagement || '',
+      logo: entry.logo || '',
       highlights: entry.highlights || [],
       startTimestamp: getStartTimestamp(entry.period),
       orderWeight: 2
     }));
 
-    return [...educationItems, ...experienceItems]
+    return [...educationStops, ...experienceStops]
       .sort((a, b) => a.startTimestamp - b.startTimestamp || a.orderWeight - b.orderWeight)
-      .map((item, index) => ({
-        ...item,
-        stopNumber: String(index + 1).padStart(2, '0')
+      .map((stop, index) => ({
+        ...stop,
+        step: String(index + 1).padStart(2, '0')
       }));
   }, []);
 
-  const stops = useMemo(() => {
-    const routePattern = [44, 57, 46, 56];
-    const total = journeyItems.length;
-    const top = 8;
-    const bottom = 92;
-    const step = total > 1 ? (bottom - top) / (total - 1) : 0;
-
-    return journeyItems.map((item, index) => ({
-      ...item,
-      x: routePattern[index % routePattern.length],
-      y: top + step * index
-    }));
-  }, [journeyItems]);
-
-  const routePath = useMemo(() => {
-    if (stops.length === 0) {
-      return '';
-    }
-    return stops.map((stop, index) => `${index === 0 ? 'M' : 'L'} ${stop.x} ${stop.y}`).join(' ');
-  }, [stops]);
-
-  const activeDetailPosition = useMemo(() => {
-    const stop = stops[activeIndex];
-    if (!stop) {
-      return {
-        left: '12%',
-        top: '12%'
-      };
-    }
-
-    const originX = stop.x >= 52 ? 'right' : 'left';
-    const cardLeft = originX === 'left'
-      ? clamp(stop.x + 6, 8, 56)
-      : clamp(stop.x - 52, 8, 56);
-    const cardTop = clamp(stop.y - 8, 6, 76);
-
-    return {
-      left: `${cardLeft}%`,
-      top: `${cardTop}%`,
-      originX
-    };
-  }, [stops, activeIndex]);
-
-  useEffect(() => {
-    if (stops.length <= 1) {
-      return;
-    }
-
-    const handleScroll = () => {
-      const section = sectionRef.current;
-      if (!section) {
-        return;
-      }
-
-      const rect = section.getBoundingClientRect();
-      const viewportHeight = window.innerHeight || 1;
-      const traveled = viewportHeight - rect.top;
-      const totalTravel = rect.height + viewportHeight * 0.45;
-      const progress = clamp(traveled / totalTravel, 0, 1);
-      const nextIndex = clamp(Math.round(progress * (stops.length - 1)), 0, stops.length - 1);
-      setActiveIndex(nextIndex);
-    };
-
-    handleScroll();
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('resize', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', handleScroll);
-    };
-  }, [stops]);
-
-  const activeStop = stops[activeIndex] || null;
-  const progressRatio = stops.length > 1 ? activeIndex / (stops.length - 1) : 1;
-  const strokeProgress = reduceMotion ? 1 : progressRatio;
-  const pointerStyle = activeStop ? { left: `${activeStop.x}%`, top: `${activeStop.y}%` } : {};
-  const visibleHighlights = (activeStop?.highlights || []).slice(0, activeStop?.kind === 'education' ? 2 : 4);
-
   return (
-    <section id="journey" className="journey" ref={sectionRef}>
+    <section id="journey" className="journey">
       <h2>Journey</h2>
       <p className="journey-intro">
-        Follow the route from academic foundations to production-scale engineering ownership, one destination at a time.
+        A single timeline of learning and work, moving from education foundations to production-scale engineering.
       </p>
 
-      <div className="journey-map-board">
-        <div className="journey-map-canvas">
-          <svg className="journey-route-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-            <path className="journey-route-base" d={routePath} />
-            <motion.path
-              className="journey-route-progress"
-              d={routePath}
-              initial={{ pathLength: reduceMotion ? 1 : 0 }}
-              animate={{ pathLength: strokeProgress }}
-              transition={{ duration: reduceMotion ? 0 : 0.55, ease: 'easeOut' }}
-            />
-          </svg>
+      <div className="journey-list">
+        {journeyStops.map((stop, index) => {
+          const previewHighlights = stop.highlights.slice(0, stop.kind === 'education' ? 2 : 3);
+          const connectorClass = index === journeyStops.length - 1 ? 'journey-marker last' : 'journey-marker';
 
-          <motion.div
-            className="journey-pointer"
-            style={pointerStyle}
-            animate={reduceMotion ? {} : { scale: [1, 1.08, 1] }}
-            transition={reduceMotion ? {} : { duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
-            aria-hidden="true"
-          >
-            <FiNavigation size={16} />
-          </motion.div>
-
-          {stops.map((stop, index) => {
-            const Icon = stop.kind === 'education' ? FiBookOpen : FiBriefcase;
-            const isActive = index === activeIndex;
-
-            return (
-              <motion.button
-                key={stop.id}
-                type="button"
-                className={`journey-stop-pin ${isActive ? 'active' : ''}`}
-                style={{ left: `${stop.x}%`, top: `${stop.y}%` }}
-                onClick={() => setActiveIndex(index)}
-                whileHover={{ scale: 1.07 }}
-                whileTap={{ scale: 0.96 }}
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.45, delay: index * 0.05 }}
-                viewport={{ once: true, amount: 0.4 }}
-                aria-label={`Go to stop ${stop.stopNumber}: ${stop.title}`}
-              >
-                <Icon size={14} />
-                <span className="journey-pin-label">Stop {stop.stopNumber}</span>
-              </motion.button>
-            );
-          })}
-
-          <div className="journey-mobile-details">
-            <AnimatePresence mode="wait">
-              {activeStop && (
-                <motion.article
-                  key={`${activeStop.id}-mobile`}
-                  className="journey-detail-card"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -8 }}
-                  transition={{ duration: reduceMotion ? 0 : 0.28, ease: 'easeOut' }}
-                >
-                  <p className="journey-detail-kicker">
-                    {activeStop.label} · Stop {activeStop.stopNumber}
-                  </p>
-                  <h3>{activeStop.title}</h3>
-                  <p className="journey-detail-subtitle">{activeStop.subtitle}</p>
-                  <div className="journey-detail-meta">
-                    <span>{activeStop.period}</span>
-                    {activeStop.location && (
-                      <span className="journey-detail-location">
-                        <FiMapPin size={12} />
-                        {activeStop.location}
-                      </span>
-                    )}
-                  </div>
-                  {activeStop.context && <p className="journey-detail-context">{activeStop.context}</p>}
-                  {visibleHighlights.length > 0 && (
-                    <>
-                      <p className="journey-detail-label">Destination highlights</p>
-                      <ul className="journey-detail-highlights">
-                        {visibleHighlights.map((highlight, index) => (
-                          <li key={index}>{highlight}</li>
-                        ))}
-                      </ul>
-                    </>
-                  )}
-                </motion.article>
-              )}
-            </AnimatePresence>
-          </div>
-        </div>
-
-        <div className="journey-details-panel" aria-live="polite">
-          <AnimatePresence mode="wait">
-            {activeStop && (
-              <motion.article
-                key={activeStop.id}
-                className={`journey-detail-card ${activeDetailPosition.originX === 'right' ? 'from-right' : 'from-left'}`}
-                style={{ left: activeDetailPosition.left, top: activeDetailPosition.top }}
-                initial={{ opacity: 0, y: 14 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: reduceMotion ? 0 : 0.32, ease: 'easeOut' }}
-              >
-                <p className="journey-detail-kicker">
-                  {activeStop.label} · Stop {activeStop.stopNumber}
+          return (
+            <motion.article
+              key={stop.id}
+              className="journey-row"
+              initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+              whileInView={reduceMotion ? {} : { opacity: 1, y: 0 }}
+              transition={{ duration: reduceMotion ? 0 : 0.42, delay: reduceMotion ? 0 : index * 0.05 }}
+              viewport={{ once: true, amount: 0.25 }}
+            >
+              <div className="journey-content">
+                <p className="journey-kicker">
+                  {stop.label} · Stop {stop.step}
                 </p>
-                <h3>{activeStop.title}</h3>
-                <p className="journey-detail-subtitle">{activeStop.subtitle}</p>
-
-                <div className="journey-detail-meta">
-                  <span>{activeStop.period}</span>
-                  {activeStop.location && (
-                    <span className="journey-detail-location">
-                      <FiMapPin size={12} />
-                      {activeStop.location}
-                    </span>
-                  )}
+                <h3>{stop.title}</h3>
+                <p className="journey-subtitle">{stop.subtitle}</p>
+                <div className="journey-meta">
+                  <span>{stop.period}</span>
+                  {stop.location && <span>{stop.location}</span>}
                 </div>
-
-                {activeStop.context && <p className="journey-detail-context">{activeStop.context}</p>}
-                {visibleHighlights.length > 0 && (
-                  <>
-                    <p className="journey-detail-label">Destination highlights</p>
-                    <ul className="journey-detail-highlights">
-                      {visibleHighlights.map((highlight, index) => (
-                        <li key={index}>{highlight}</li>
-                      ))}
-                    </ul>
-                  </>
+                {stop.context && <p className="journey-context">{stop.context}</p>}
+                {previewHighlights.length > 0 && (
+                  <ul className="journey-highlights">
+                    {previewHighlights.map((highlight, highlightIndex) => (
+                      <li key={highlightIndex}>{highlight}</li>
+                    ))}
+                  </ul>
                 )}
-              </motion.article>
-            )}
-          </AnimatePresence>
-        </div>
+              </div>
+
+              <div className={connectorClass}>
+                <motion.div
+                  className="journey-badge"
+                  whileHover={reduceMotion ? {} : { scale: 1.05 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <StopIcon stop={stop} />
+                </motion.div>
+              </div>
+            </motion.article>
+          );
+        })}
       </div>
     </section>
   );
