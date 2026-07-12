@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { FaMicrosoft } from 'react-icons/fa';
 import { FiBookOpen } from 'react-icons/fi';
 import { HiOfficeBuilding } from 'react-icons/hi';
@@ -106,7 +106,7 @@ function StopIcon({ stop }) {
 
 function Journey() {
   const reduceMotion = useReducedMotion();
-  const panelRefs = useRef([]);
+  const stepRefs = useRef([]);
   const [activeIndex, setActiveIndex] = useState(0);
 
   const journeyStops = useMemo(() => {
@@ -152,10 +152,11 @@ function Journey() {
   const stopPositions = useMemo(() => getStopPositions(journeyStops.length), [journeyStops.length]);
   const routePath = useMemo(() => buildRoutePath(stopPositions), [stopPositions]);
   const progress = journeyStops.length > 1 ? activeIndex / (journeyStops.length - 1) : 1;
+  const activeStop = journeyStops[activeIndex] ?? journeyStops[0];
 
   useEffect(() => {
     const updateActiveIndex = () => {
-      if (!panelRefs.current.length) {
+      if (!stepRefs.current.length) {
         return;
       }
 
@@ -163,13 +164,13 @@ function Journey() {
       let closestDistance = Number.POSITIVE_INFINITY;
       const viewportCenter = window.innerHeight / 2;
 
-      panelRefs.current.forEach((panel, index) => {
-        if (!panel) {
+      stepRefs.current.forEach((step, index) => {
+        if (!step) {
           return;
         }
-        const rect = panel.getBoundingClientRect();
-        const panelCenter = rect.top + rect.height / 2;
-        const distance = Math.abs(panelCenter - viewportCenter);
+        const rect = step.getBoundingClientRect();
+        const stepCenter = rect.top + rect.height / 2;
+        const distance = Math.abs(stepCenter - viewportCenter);
 
         if (distance < closestDistance) {
           closestDistance = distance;
@@ -256,57 +257,60 @@ function Journey() {
         </div>
 
         <div className="journey-right-column">
-          {journeyStops.map((stop, index) => {
-            const isActive = index === activeIndex;
-            const highlights = stop.achievements.slice(0, 5);
-
-            return (
-              <article
-                key={stop.id}
-                className="journey-panel"
-                ref={(element) => {
-                  panelRefs.current[index] = element;
-                }}
+          <div className="journey-right-sticky">
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.article
+                key={activeStop?.id}
+                className="journey-detail-card active"
+                initial={reduceMotion ? false : { opacity: 0, y: 24, scale: 0.96 }}
+                animate={reduceMotion ? {} : { opacity: 1, y: 0, scale: 1 }}
+                exit={reduceMotion ? {} : { opacity: 0, y: -16, scale: 0.97 }}
+                transition={{ duration: reduceMotion ? 0 : 0.4, ease: 'easeOut' }}
               >
-                <motion.div
-                  className={`journey-detail-card ${isActive ? 'active' : ''}`}
-                  initial={false}
-                  animate={reduceMotion ? {} : { opacity: isActive ? 1 : 0.42, y: isActive ? 0 : 18 }}
-                  transition={{ duration: reduceMotion ? 0 : 0.4, ease: 'easeOut' }}
-                >
-                  <p className="journey-detail-kicker">
-                    {stop.label} · Stop {String(index + 1).padStart(2, '0')}
-                  </p>
-                  <h3>{stop.title}</h3>
-                  <p className="journey-detail-subtitle">{stop.subtitle}</p>
-                  <div className="journey-detail-meta">
-                    <span>{stop.period}</span>
-                    {stop.location && <span>{stop.location}</span>}
+                <p className="journey-detail-kicker">
+                  {activeStop?.label} · Stop {String(activeIndex + 1).padStart(2, '0')}
+                </p>
+                <h3>{activeStop?.title}</h3>
+                <p className="journey-detail-subtitle">{activeStop?.subtitle}</p>
+                <div className="journey-detail-meta">
+                  <span>{activeStop?.period}</span>
+                  {activeStop?.location && <span>{activeStop.location}</span>}
+                </div>
+
+                {(activeStop?.achievements || []).slice(0, 5).length > 0 && (
+                  <ul className="journey-achievements">
+                    {activeStop.achievements.slice(0, 5).map((achievement, achievementIndex) => (
+                      <li key={`${activeStop.id}-achievement-${achievementIndex}`}>{achievement}</li>
+                    ))}
+                  </ul>
+                )}
+
+                {(activeStop?.stack || []).length > 0 && (
+                  <div className="journey-stack">
+                    {activeStop.stack.map((tech, techIndex) => (
+                      <span key={`${activeStop.id}-tech-${techIndex}`} className="journey-stack-chip">
+                        {tech}
+                      </span>
+                    ))}
                   </div>
+                )}
 
-                  {highlights.length > 0 && (
-                    <ul className="journey-achievements">
-                      {highlights.map((achievement, achievementIndex) => (
-                        <li key={`${stop.id}-achievement-${achievementIndex}`}>{achievement}</li>
-                      ))}
-                    </ul>
-                  )}
+                {activeStop?.highlightBlock && <p className="journey-highlight-block">{activeStop.highlightBlock}</p>}
+              </motion.article>
+            </AnimatePresence>
+          </div>
 
-                  {stop.stack.length > 0 && (
-                    <div className="journey-stack">
-                      {stop.stack.map((tech, techIndex) => (
-                        <span key={`${stop.id}-tech-${techIndex}`} className="journey-stack-chip">
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-
-                  {stop.highlightBlock && <p className="journey-highlight-block">{stop.highlightBlock}</p>}
-                </motion.div>
-              </article>
-            );
-          })}
+          <div className="journey-scroll-track" aria-hidden="true">
+            {journeyStops.map((stop, index) => (
+              <div
+                key={`${stop.id}-step`}
+                className="journey-scroll-step"
+                ref={(element) => {
+                  stepRefs.current[index] = element;
+                }}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </section>
