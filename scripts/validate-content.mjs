@@ -62,6 +62,24 @@ function validateExperience(data) {
         assertString(highlight, 'experience.yaml', `${field}.highlights[${highlightIndex}]`);
       });
     }
+    if (item.achievements !== undefined) {
+      assertArray(item.achievements, 'experience.yaml', `${field}.achievements`);
+      item.achievements.forEach((achievement, achievementIndex) => {
+        assertString(achievement, 'experience.yaml', `${field}.achievements[${achievementIndex}]`);
+      });
+    }
+    if (item.stack !== undefined) {
+      assertArray(item.stack, 'experience.yaml', `${field}.stack`);
+      item.stack.forEach((tech, techIndex) => {
+        assertString(tech, 'experience.yaml', `${field}.stack[${techIndex}]`);
+      });
+    }
+    if (item.subtitle !== undefined) {
+      assertString(item.subtitle, 'experience.yaml', `${field}.subtitle`);
+    }
+    if (item.highlight_block !== undefined) {
+      assertString(item.highlight_block, 'experience.yaml', `${field}.highlight_block`);
+    }
   });
 }
 
@@ -98,6 +116,24 @@ function validateEducation(data) {
       item.highlights.forEach((highlight, highlightIndex) => {
         assertString(highlight, 'education.yaml', `${field}.highlights[${highlightIndex}]`);
       });
+    }
+    if (item.achievements !== undefined) {
+      assertArray(item.achievements, 'education.yaml', `${field}.achievements`);
+      item.achievements.forEach((achievement, achievementIndex) => {
+        assertString(achievement, 'education.yaml', `${field}.achievements[${achievementIndex}]`);
+      });
+    }
+    if (item.stack !== undefined) {
+      assertArray(item.stack, 'education.yaml', `${field}.stack`);
+      item.stack.forEach((tech, techIndex) => {
+        assertString(tech, 'education.yaml', `${field}.stack[${techIndex}]`);
+      });
+    }
+    if (item.subtitle !== undefined) {
+      assertString(item.subtitle, 'education.yaml', `${field}.subtitle`);
+    }
+    if (item.highlight_block !== undefined) {
+      assertString(item.highlight_block, 'education.yaml', `${field}.highlight_block`);
     }
   });
 }

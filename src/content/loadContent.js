@@ -119,6 +119,24 @@ function loadExperience() {
         assertString(highlight, 'experience.yaml', `${entryField}.highlights[${hIndex}]`);
       });
     }
+    if (item.achievements !== undefined) {
+      assertArray(item.achievements, 'experience.yaml', `${entryField}.achievements`);
+      item.achievements.forEach((achievement, achievementIndex) => {
+        assertString(achievement, 'experience.yaml', `${entryField}.achievements[${achievementIndex}]`);
+      });
+    }
+    if (item.stack !== undefined) {
+      assertArray(item.stack, 'experience.yaml', `${entryField}.stack`);
+      item.stack.forEach((tech, techIndex) => {
+        assertString(tech, 'experience.yaml', `${entryField}.stack[${techIndex}]`);
+      });
+    }
+    if (item.subtitle !== undefined) {
+      assertString(item.subtitle, 'experience.yaml', `${entryField}.subtitle`);
+    }
+    if (item.highlight_block !== undefined) {
+      assertString(item.highlight_block, 'experience.yaml', `${entryField}.highlight_block`);
+    }
     if (item.theme !== undefined) {
       assertObject(item.theme, 'experience.yaml', `${entryField}.theme`);
       REQUIRED_THEME_FIELDS.forEach((field) => {
@@ -130,13 +148,17 @@ function loadExperience() {
       id: item.id || `${item.company}-${index}`.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
       company: item.company,
       role: item.role,
+      subtitle: item.subtitle ?? '',
       period: item.period,
       location: item.location ?? '',
       summary: item.summary ?? '',
       engagement: item.engagement ?? '',
       logo: item.logo ?? '',
       theme: item.theme ?? null,
-      highlights: item.highlights ?? []
+      highlights: item.highlights ?? [],
+      achievements: item.achievements ?? item.highlights ?? [],
+      stack: item.stack ?? [],
+      highlightBlock: item.highlight_block ?? ''
     };
   });
 }
@@ -196,13 +218,35 @@ function loadEducation() {
         assertString(highlight, 'education.yaml', `${entryField}.highlights[${hIndex}]`);
       });
     }
+    if (item.achievements !== undefined) {
+      assertArray(item.achievements, 'education.yaml', `${entryField}.achievements`);
+      item.achievements.forEach((achievement, achievementIndex) => {
+        assertString(achievement, 'education.yaml', `${entryField}.achievements[${achievementIndex}]`);
+      });
+    }
+    if (item.stack !== undefined) {
+      assertArray(item.stack, 'education.yaml', `${entryField}.stack`);
+      item.stack.forEach((tech, techIndex) => {
+        assertString(tech, 'education.yaml', `${entryField}.stack[${techIndex}]`);
+      });
+    }
+    if (item.subtitle !== undefined) {
+      assertString(item.subtitle, 'education.yaml', `${entryField}.subtitle`);
+    }
+    if (item.highlight_block !== undefined) {
+      assertString(item.highlight_block, 'education.yaml', `${entryField}.highlight_block`);
+    }
 
     return {
       institution: item.institution,
       degree: item.degree,
+      subtitle: item.subtitle ?? '',
       period: item.period,
       location: item.location ?? '',
-      highlights: item.highlights ?? []
+      highlights: item.highlights ?? [],
+      achievements: item.achievements ?? item.highlights ?? [],
+      stack: item.stack ?? [],
+      highlightBlock: item.highlight_block ?? ''
     };
   });
 }

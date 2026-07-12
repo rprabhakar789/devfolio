@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { FaMicrosoft } from 'react-icons/fa';
 import { FiBookOpen } from 'react-icons/fi';
@@ -43,6 +43,38 @@ function getStartTimestamp(period = '') {
   return Number.MAX_SAFE_INTEGER;
 }
 
+function buildRoutePath(stops) {
+  if (stops.length === 0) {
+    return '';
+  }
+
+  let path = `M ${stops[0].x} ${stops[0].y}`;
+  for (let index = 1; index < stops.length; index += 1) {
+    const previous = stops[index - 1];
+    const current = stops[index];
+    const midpoint = (previous.y + current.y) / 2;
+    path += ` C ${previous.x} ${midpoint}, ${current.x} ${midpoint}, ${current.x} ${current.y}`;
+  }
+
+  return path;
+}
+
+function getStopPositions(count) {
+  if (count <= 1) {
+    return [{ x: 40, y: 50 }];
+  }
+
+  const baseOffsets = [-10, 8, -7, 9];
+  const yStart = 10;
+  const yEnd = 90;
+  const step = (yEnd - yStart) / (count - 1);
+
+  return Array.from({ length: count }, (_, index) => ({
+    x: 40 + baseOffsets[index % baseOffsets.length],
+    y: yStart + step * index
+  }));
+}
+
 function StopIcon({ stop }) {
   if (stop.kind === 'education') {
     return <FiBookOpen size={16} aria-label={`${stop.title} education`} />;
@@ -56,9 +88,17 @@ function StopIcon({ stop }) {
     case 'wells-fargo':
       return <SiWellsfargo size={16} aria-label={`${stop.title} logo`} />;
     case 'arcesium':
-      return <span className="journey-badge-monogram" aria-label={`${stop.title} logo`}>A</span>;
+      return (
+        <span className="journey-stop-monogram" aria-label={`${stop.title} logo`}>
+          A
+        </span>
+      );
     case 'enliven':
-      return <span className="journey-badge-monogram" aria-label={`${stop.title} logo`}>E</span>;
+      return (
+        <span className="journey-stop-monogram" aria-label={`${stop.title} logo`}>
+          E
+        </span>
+      );
     default:
       return <HiOfficeBuilding size={16} aria-label={`${stop.title} logo`} />;
   }
@@ -66,6 +106,8 @@ function StopIcon({ stop }) {
 
 function Journey() {
   const reduceMotion = useReducedMotion();
+  const panelRefs = useRef([]);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const journeyStops = useMemo(() => {
     const educationStops = portfolioContent.education.map((entry, index) => ({
@@ -73,12 +115,14 @@ function Journey() {
       kind: 'education',
       label: 'Education',
       title: entry.institution,
-      subtitle: entry.degree,
+      subtitle: entry.subtitle || entry.degree,
+      secondary: entry.degree,
       period: entry.period,
       location: entry.location,
-      context: '',
+      achievements: entry.achievements || entry.highlights || [],
+      stack: entry.stack || [],
+      highlightBlock: entry.highlightBlock || '',
       logo: 'education',
-      highlights: entry.highlights || [],
       startTimestamp: getStartTimestamp(entry.period),
       orderWeight: 1
     }));
@@ -88,77 +132,182 @@ function Journey() {
       kind: 'experience',
       label: 'Work',
       title: entry.company,
-      subtitle: entry.role,
+      subtitle: entry.subtitle || entry.role,
+      secondary: entry.role,
       period: entry.period,
       location: entry.location,
-      context: entry.engagement || '',
+      achievements: entry.achievements || entry.highlights || [],
+      stack: entry.stack || [],
+      highlightBlock: entry.highlightBlock || entry.engagement || '',
       logo: entry.logo || '',
-      highlights: entry.highlights || [],
       startTimestamp: getStartTimestamp(entry.period),
       orderWeight: 2
     }));
 
-    return [...educationStops, ...experienceStops]
-      .sort((a, b) => a.startTimestamp - b.startTimestamp || a.orderWeight - b.orderWeight)
-      .map((stop, index) => ({
-        ...stop,
-        step: String(index + 1).padStart(2, '0')
-      }));
+    return [...educationStops, ...experienceStops].sort(
+      (a, b) => a.startTimestamp - b.startTimestamp || a.orderWeight - b.orderWeight
+    );
+  }, []);
+
+  const stopPositions = useMemo(() => getStopPositions(journeyStops.length), [journeyStops.length]);
+  const routePath = useMemo(() => buildRoutePath(stopPositions), [stopPositions]);
+  const progress = journeyStops.length > 1 ? activeIndex / (journeyStops.length - 1) : 1;
+
+  useEffect(() => {
+    const updateActiveIndex = () => {
+      if (!panelRefs.current.length) {
+        return;
+      }
+
+      let closestIndex = 0;
+      let closestDistance = Number.POSITIVE_INFINITY;
+      const viewportCenter = window.innerHeight / 2;
+
+      panelRefs.current.forEach((panel, index) => {
+        if (!panel) {
+          return;
+        }
+        const rect = panel.getBoundingClientRect();
+        const panelCenter = rect.top + rect.height / 2;
+        const distance = Math.abs(panelCenter - viewportCenter);
+
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestIndex = index;
+        }
+      });
+
+      setActiveIndex((current) => (current === closestIndex ? current : closestIndex));
+    };
+
+    updateActiveIndex();
+    window.addEventListener('scroll', updateActiveIndex, { passive: true });
+    window.addEventListener('resize', updateActiveIndex);
+
+    return () => {
+      window.removeEventListener('scroll', updateActiveIndex);
+      window.removeEventListener('resize', updateActiveIndex);
+    };
   }, []);
 
   return (
-    <section id="journey" className="journey">
-      <h2>Journey</h2>
+    <section id="journey" className="journey journey-map">
+      <h2>Career Journey</h2>
       <p className="journey-intro">
-        A single timeline of learning and work, moving from education foundations to production-scale engineering.
+        From foundational academics to production engineering ownership, each stop marks a clear step forward.
       </p>
 
-      <div className="journey-list">
-        {journeyStops.map((stop, index) => {
-          const previewHighlights = stop.highlights.slice(0, stop.kind === 'education' ? 2 : 3);
-          const connectorClass = index === journeyStops.length - 1 ? 'journey-marker last' : 'journey-marker';
+      <div className="journey-stage">
+        <aside className="journey-left-column" aria-label="Journey labels">
+          <div className="journey-sticky-layout">
+            {journeyStops.map((stop, index) => (
+              <article
+                key={`${stop.id}-label`}
+                className={`journey-left-item ${index === activeIndex ? 'active' : ''}`}
+                style={{ top: `${stopPositions[index]?.y ?? 50}%` }}
+              >
+                <p className="journey-left-title">{stop.title}</p>
+                <p className="journey-left-subtitle">{stop.secondary}</p>
+                <p className="journey-left-period">{stop.period}</p>
+              </article>
+            ))}
+          </div>
+        </aside>
 
-          return (
-            <motion.article
-              key={stop.id}
-              className="journey-row"
-              initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-              whileInView={reduceMotion ? {} : { opacity: 1, y: 0 }}
-              transition={{ duration: reduceMotion ? 0 : 0.42, delay: reduceMotion ? 0 : index * 0.05 }}
-              viewport={{ once: true, amount: 0.25 }}
-            >
-              <div className="journey-content">
-                <p className="journey-kicker">
-                  {stop.label} · Stop {stop.step}
-                </p>
-                <h3>{stop.title}</h3>
-                <p className="journey-subtitle">{stop.subtitle}</p>
-                <div className="journey-meta">
-                  <span>{stop.period}</span>
-                  {stop.location && <span>{stop.location}</span>}
-                </div>
-                {stop.context && <p className="journey-context">{stop.context}</p>}
-                {previewHighlights.length > 0 && (
-                  <ul className="journey-highlights">
-                    {previewHighlights.map((highlight, highlightIndex) => (
-                      <li key={highlightIndex}>{highlight}</li>
-                    ))}
-                  </ul>
-                )}
+        <div className="journey-center-column" aria-hidden="true">
+          <div className="journey-sticky-layout">
+            <svg viewBox="0 0 80 100" className="journey-route-svg">
+              <path d={routePath} className="journey-route-base" pathLength="1" />
+              <motion.path
+                d={routePath}
+                className="journey-route-progress"
+                pathLength="1"
+                initial={false}
+                animate={{ pathLength: progress }}
+                transition={{ duration: reduceMotion ? 0 : 0.4, ease: 'easeOut' }}
+              />
+            </svg>
+
+            {journeyStops.map((stop, index) => (
+              <div
+                key={`${stop.id}-pin`}
+                className={`journey-stop-pin ${index <= activeIndex ? 'complete' : ''} ${
+                  index === activeIndex ? 'active' : ''
+                }`}
+                style={{
+                  top: `${stopPositions[index]?.y ?? 50}%`,
+                  left: `${stopPositions[index]?.x ?? 40}px`
+                }}
+              >
+                <StopIcon stop={stop} />
               </div>
+            ))}
 
-              <div className={connectorClass}>
+            <motion.div
+              className="journey-nav-arrow"
+              initial={false}
+              animate={{
+                top: `calc(${stopPositions[activeIndex]?.y ?? 50}% - 11px)`,
+                left: `${(stopPositions[activeIndex]?.x ?? 40) + 16}px`
+              }}
+              transition={{ duration: reduceMotion ? 0 : 0.4, ease: 'easeInOut' }}
+            />
+          </div>
+        </div>
+
+        <div className="journey-right-column">
+          {journeyStops.map((stop, index) => {
+            const isActive = index === activeIndex;
+            const highlights = stop.achievements.slice(0, 5);
+
+            return (
+              <article
+                key={stop.id}
+                className="journey-panel"
+                ref={(element) => {
+                  panelRefs.current[index] = element;
+                }}
+              >
                 <motion.div
-                  className="journey-badge"
-                  whileHover={reduceMotion ? {} : { scale: 1.05 }}
-                  transition={{ duration: 0.2 }}
+                  className={`journey-detail-card ${isActive ? 'active' : ''}`}
+                  initial={false}
+                  animate={reduceMotion ? {} : { opacity: isActive ? 1 : 0.42, y: isActive ? 0 : 18 }}
+                  transition={{ duration: reduceMotion ? 0 : 0.4, ease: 'easeOut' }}
                 >
-                  <StopIcon stop={stop} />
+                  <p className="journey-detail-kicker">
+                    {stop.label} · Stop {String(index + 1).padStart(2, '0')}
+                  </p>
+                  <h3>{stop.title}</h3>
+                  <p className="journey-detail-subtitle">{stop.subtitle}</p>
+                  <div className="journey-detail-meta">
+                    <span>{stop.period}</span>
+                    {stop.location && <span>{stop.location}</span>}
+                  </div>
+
+                  {highlights.length > 0 && (
+                    <ul className="journey-achievements">
+                      {highlights.map((achievement, achievementIndex) => (
+                        <li key={`${stop.id}-achievement-${achievementIndex}`}>{achievement}</li>
+                      ))}
+                    </ul>
+                  )}
+
+                  {stop.stack.length > 0 && (
+                    <div className="journey-stack">
+                      {stop.stack.map((tech, techIndex) => (
+                        <span key={`${stop.id}-tech-${techIndex}`} className="journey-stack-chip">
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+
+                  {stop.highlightBlock && <p className="journey-highlight-block">{stop.highlightBlock}</p>}
                 </motion.div>
-              </div>
-            </motion.article>
-          );
-        })}
+              </article>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

@@ -6,6 +6,11 @@
     - "CGPA: 7.79"
     - "ACM Student Chapter organizer and mentor for coding contests and programming sessions."
     - "NPL, Technozion '18 inter-college coding contest: Rank 2."
+  stack:
+    - Electronics & Communication
+    - Competitive programming
+    - Technical leadership
+  highlight_block: Developed strong engineering fundamentals and leadership through academics and coding communities.
 
 - institution: KDHS Fulkaha
   degree: Intermediate
@@ -14,3 +19,7 @@
   highlights:
     - "Score: 83.4%"
     - "Intermediate examination: Rank 7 in the state."
+  stack:
+    - Mathematics
+    - Physics
+    - Analytical reasoning

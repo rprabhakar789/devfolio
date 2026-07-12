@@ -16,6 +16,12 @@
     - Spearheaded AI agent-driven development initiatives and generated automated test suites with AI to cut regression testing effort.
     - Integrated AI agents with project management tools and GitHub to enable end-to-end autonomous task execution.
     - Designed and implemented bulk file upload flows supporting up to 20k records per batch for create, update, and delete operations.
+  stack:
+    - AI agents
+    - GitHub automation
+    - Test automation
+    - Bulk workflows
+  highlight_block: Built AI-assisted delivery flows that reduced release friction and manual QA effort.
 
 - id: arcesium
   company: Arcesium
@@ -38,6 +44,13 @@
     - Enabled real-time search on PII data across 10M+ records using Lucene Index while preserving confidentiality.
     - Conducted API performance testing and optimized database queries, achieving up to 70% faster execution times.
     - Authored automation tests in Python and contributed more than 60% of the application’s automated test coverage.
+  stack:
+    - AWS S3
+    - AWS KMS
+    - AWS Athena
+    - KEDA
+    - Lucene
+  highlight_block: Led secure data-platform initiatives with measurable cost and performance gains.
 
 - id: wells-fargo
   company: Wells Fargo
@@ -57,6 +70,12 @@
     - Automated batch job failure monitoring with a Java application, saving 2 hours of daily manual work.
     - Improved application security by implementing Spring Security and resolving a severity-2 vulnerability.
     - Built a React-based web application for CMaaS, reducing environment configuration time from hours to minutes.
+  stack:
+    - Java
+    - Spring Boot
+    - Spring Security
+    - React
+  highlight_block: Delivered stability and developer productivity improvements across critical reporting systems.
 
 - id: enliven
   company: Enliven Solutions Pvt Ltd
@@ -74,6 +93,10 @@
     glow: "rgba(15, 118, 110, 0.18)"
   highlights:
     - Built a responsive user interface from scratch for Resolab, a resource management application, improving usability and visual polish.
+  stack:
+    - React
+    - UI engineering
+    - Product collaboration
 
 - id: samsung
   company: Samsung R&D Institute
@@ -90,3 +113,7 @@
     glow: "rgba(20, 40, 160, 0.18)"
   highlights:
     - Developed a program to analyze user activity patterns in the Samsung Pay Android application, identifying the most frequently used features to improve user experience.
+  stack:
+    - Android
+    - Samsung Pay
+    - Usage analytics
