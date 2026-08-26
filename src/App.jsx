@@ -8,11 +8,13 @@ import Skills from './components/Skills';
 import Projects from './components/Projects';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import { useTheme } from './hooks/useTheme';
 
 const Chatbot = lazy(() => import('./components/Chatbot'));
 
 function App() {
   const [scrollPosition, setScrollPosition] = useState(0);
+  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,7 +27,7 @@ function App() {
 
   return (
     <div className="app">
-      <Header scrollPosition={scrollPosition} />
+      <Header scrollPosition={scrollPosition} theme={theme} onToggleTheme={toggleTheme} />
       <main>
         <Hero />
         <About />

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FiMenu, FiX } from 'react-icons/fi';
+import { FiMenu, FiMoon, FiSun, FiX } from 'react-icons/fi';
 import '../styles/Header.css';
 
-function Header({ scrollPosition }) {
+function Header({ scrollPosition, theme, onToggleTheme }) {
   const [isOpen, setIsOpen] = useState(false);
+  const isLight = theme === 'light';
 
   const scrollToSection = (id) => {
     const element = document.getElementById(id);
@@ -48,6 +49,18 @@ function Header({ scrollPosition }) {
             </button>
           ))}
         </nav>
+
+        <motion.button
+          type="button"
+          className="theme-toggle"
+          onClick={onToggleTheme}
+          whileHover={{ scale: 1.08 }}
+          whileTap={{ scale: 0.92 }}
+          aria-label={isLight ? 'Switch to dark theme' : 'Switch to light theme'}
+          title={isLight ? 'Switch to dark theme' : 'Switch to light theme'}
+        >
+          {isLight ? <FiMoon size={20} /> : <FiSun size={20} />}
+        </motion.button>
       </div>
     </motion.header>
   );

@@ -8,7 +8,7 @@
 }
 
 .header.scrolled {
-  background: rgba(248, 250, 252, 0.86);
+  background: var(--panel-bg);
   backdrop-filter: blur(14px);
   border-bottom: 1px solid rgba(148, 163, 184, 0.25);
   box-shadow: 0 10px 26px rgba(15, 23, 42, 0.08);
@@ -21,6 +21,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 1rem;
 }
 
 .logo {
@@ -73,6 +74,31 @@
   font-size: 1.5rem;
 }
 
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface-strong);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.theme-toggle:hover {
+  background: var(--surface-hover);
+  border-color: var(--accent-subtle);
+  color: var(--accent-subtle);
+}
+
+.theme-toggle svg {
+  flex-shrink: 0;
+}
+
 @media (max-width: 768px) {
   .nav {
     display: none;
@@ -81,7 +107,7 @@
     top: 100%;
     left: 0;
     right: 0;
-    background: rgba(248, 250, 252, 0.98);
+    background: var(--panel-bg-strong);
     padding: 1rem;
     gap: 0.5rem;
     border-top: 1px solid rgba(148, 163, 184, 0.22);

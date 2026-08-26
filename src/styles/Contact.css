@@ -67,6 +67,14 @@
   color: #d6b57a;
 }
 
+.contact-link[href*="codechef.com"] svg {
+  color: #5b4638;
+}
+
+.contact-link[href*="leetcode.com"] svg {
+  color: #ffa116;
+}
+
 .link-label {
   font-size: 0.9rem;
   color: var(--text-muted);

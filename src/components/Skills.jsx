@@ -1,64 +1,36 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { portfolioContent } from '../content/loadContent';
 import '../styles/Skills.css';
 
 function Skills() {
-  const [filter, setFilter] = useState('all');
-  const categories = [
-    { id: 'all', label: 'All' },
-    ...portfolioContent.skills.map((category) => ({
-      id: category.id,
-      label: category.category
-    }))
-  ];
-
-  const getDisplaySkills = () => {
-    if (filter === 'all') {
-      return portfolioContent.skills.flatMap((category) => category.items);
-    }
-    return portfolioContent.skills.find((category) => category.id === filter)?.items || [];
-  };
-
   return (
     <section id="skills" className="skills">
-      <h2>Skills & Expertise</h2>
+      <p className="skills-eyebrow">// skills</p>
+      <h2>Tech Stack</h2>
+      <p className="skills-intro">Languages, frameworks and tools I reach for to ship reliable software.</p>
 
-      <div className="category-filter">
-        {categories.map((cat) => (
-          <motion.button
-            key={cat.id}
-            className={`filter-btn ${filter === cat.id ? 'active' : ''}`}
-            onClick={() => setFilter(cat.id)}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            {cat.label}
-          </motion.button>
-        ))}
-      </div>
-
-      <motion.div
-        className="skills-grid"
-        layout
-      >
-        {getDisplaySkills().map((skill, index) => (
+      <div className="skills-grid">
+        {portfolioContent.skills.map((category, index) => (
           <motion.div
-            key={`${filter}-${skill.name}`}
-            className="skill-card"
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3, delay: index * 0.05 }}
+            key={category.id}
+            className="skill-category-card"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: Math.min(index * 0.08, 0.4) }}
             viewport={{ once: true, amount: 0.2 }}
-            whileHover={{ y: -5 }}
           >
-            <div className="skill-info">
-              <h4>{skill.name}</h4>
-              {skill.notes && <p className="skill-note">{skill.notes}</p>}
+            <h3>{category.category}</h3>
+            <div className="skill-chip-row">
+              {category.items.map((skill) => (
+                <span key={skill.name} className="skill-chip">
+                  {skill.name}
+                </span>
+              ))}
             </div>
           </motion.div>
         ))}
-      </motion.div>
+      </div>
     </section>
   );
 }

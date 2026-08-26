@@ -61,6 +61,12 @@ function normalizeLinkLabel(key) {
   if (key === 'resume') {
     return 'Resume';
   }
+  if (key === 'codechef') {
+    return 'CodeChef';
+  }
+  if (key === 'leetcode') {
+    return 'LeetCode';
+  }
   return key.charAt(0).toUpperCase() + key.slice(1);
 }
 
@@ -313,13 +319,11 @@ function loadContact() {
       label: normalizeLinkLabel(key),
       href: key === 'resume' ? normalizeAssetUrl(value) : value,
       value:
-        key === 'linkedin'
+        key === 'linkedin' || key === 'github' || key === 'codechef' || key === 'leetcode'
           ? value.replace(/^https?:\/\//, '')
-          : key === 'github'
-            ? value.replace(/^https?:\/\//, '')
-            : key === 'resume'
-              ? 'View or download PDF'
-              : value
+          : key === 'resume'
+            ? 'View or download PDF'
+            : value
     };
   });
 
@@ -355,12 +359,12 @@ function buildProjectCategories(projects) {
   return [{ id: 'all', label: 'All' }, ...uniqueCategories.map((id) => ({ id, label: normalizeCategoryLabel(id) }))];
 }
 
-function buildAboutStats(experience, projects, skills) {
+function buildAboutStats(experience) {
   return [
     { label: 'Years Experience', value: getExperienceYears() },
     { label: 'Career Roles', value: `${experience.length}` },
-    { label: 'Projects Showcased', value: `${projects.length}` },
-    { label: 'Skill Areas', value: `${skills.length}` }
+    { label: 'CodeChef Coder', value: '5★', href: 'https://www.codechef.com/users/rp789' },
+    { label: 'Records Secured at Scale', value: '10M+' }
   ];
 }
 
@@ -379,6 +383,6 @@ export const portfolioContent = {
   skills,
   contact,
   projectCategories: buildProjectCategories(projects),
-  aboutStats: buildAboutStats(experience, projects, skills),
+  aboutStats: buildAboutStats(experience),
   resumeUrl: contact.links.find((link) => link.key === 'resume')?.href ?? ''
 };

@@ -50,6 +50,12 @@
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  display: block;
+  text-decoration: none;
+}
+
+.stat-card-link {
+  cursor: pointer;
 }
 
 .stat-card::before {

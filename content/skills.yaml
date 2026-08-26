@@ -9,6 +9,8 @@
       level: 90
     - name: Kotlin
       level: 85
+    - name: C#
+      level: 85
     - name: C++
       level: 85
     - name: SQL
@@ -21,6 +23,8 @@
       level: 95
     - name: React.js
       level: 90
+    - name: .NET
+      level: 85
     - name: MyBatis
       level: 88
     - name: Material UI
@@ -31,6 +35,8 @@
   items:
     - name: AWS
       level: 90
+    - name: Azure
+      level: 88
     - name: Docker
       level: 88
     - name: Kubernetes
@@ -39,8 +45,12 @@
       level: 95
     - name: Kafka
       level: 85
+    - name: Redis
+      level: 86
     - name: ElasticSearch
       level: 80
+    - name: NoSQL
+      level: 86
 
 - id: specialties
   category: Specialties

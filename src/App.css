@@ -4,7 +4,36 @@
   box-sizing: border-box;
 }
 
-:root {
+:root,
+[data-theme='dark'] {
+  --primary: #18181b;
+  --primary-dark: #27272a;
+  --secondary: #a1a1aa;
+  --accent: #10b981;
+  --dark: #0f172a;
+  --darker: #020617;
+  --text: #fafafa;
+  --text-muted: #a1a1aa;
+  --bg: #09090b;
+  --bg-secondary: #111113;
+  --bg-tertiary: #18181b;
+  --border: #27272a;
+  --surface: rgba(255, 255, 255, 0.03);
+  --surface-strong: rgba(255, 255, 255, 0.05);
+  --surface-hover: rgba(255, 255, 255, 0.09);
+  --surface-soft: rgba(255, 255, 255, 0.02);
+  --accent-subtle: #34d399;
+  --shadow-lg: 0 18px 40px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 10px 24px rgba(0, 0, 0, 0.4);
+  --panel-bg: rgba(9, 9, 11, 0.86);
+  --panel-bg-strong: rgba(9, 9, 11, 0.96);
+  --panel-bg-soft: rgba(24, 24, 27, 0.75);
+  --body-bg: radial-gradient(circle at top, rgba(16, 185, 129, 0.06), transparent 30%),
+    radial-gradient(circle at bottom left, rgba(39, 39, 42, 0.4), transparent 30%),
+    linear-gradient(180deg, #09090b 0%, #0c0c0e 100%);
+}
+
+[data-theme='light'] {
   --primary: #f8fafc;
   --primary-dark: #e2e8f0;
   --secondary: #64748b;
@@ -24,6 +53,12 @@
   --accent-subtle: #2563eb;
   --shadow-lg: 0 18px 40px rgba(15, 23, 42, 0.12);
   --shadow-md: 0 10px 24px rgba(15, 23, 42, 0.1);
+  --panel-bg: rgba(248, 250, 252, 0.86);
+  --panel-bg-strong: rgba(248, 250, 252, 0.97);
+  --panel-bg-soft: rgba(226, 232, 240, 0.7);
+  --body-bg: radial-gradient(circle at top, rgba(37, 99, 235, 0.08), transparent 30%),
+    radial-gradient(circle at bottom left, rgba(148, 163, 184, 0.08), transparent 30%),
+    linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
 }
 
 html {
@@ -32,12 +67,10 @@ html {
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background:
-    radial-gradient(circle at top, rgba(37, 99, 235, 0.08), transparent 30%),
-    radial-gradient(circle at bottom left, rgba(148, 163, 184, 0.08), transparent 30%),
-    linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+  background: var(--body-bg);
   color: var(--text);
   overflow-x: hidden;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 .app {
@@ -81,14 +114,14 @@ section {
 }
 
 .btn-primary {
-  background: var(--dark);
+  background: var(--accent);
   color: #ffffff;
-  border: 1px solid rgba(15, 23, 42, 0.18);
+  border: 1px solid color-mix(in srgb, var(--accent) 60%, transparent);
   box-shadow: var(--shadow-md);
 }
 
 .btn-primary:hover {
-  background: #1e293b;
+  background: color-mix(in srgb, var(--accent) 85%, black);
   transform: translateY(-1px);
 }
 

@@ -37,17 +37,25 @@ function About() {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          {portfolioContent.aboutStats.map((stat, index) => (
-            <motion.div
-              key={index}
-              className="stat-card"
-              whileHover={{ y: -5 }}
-              transition={{ duration: 0.3 }}
-            >
-              <div className="stat-value">{stat.value}</div>
-              <div className="stat-label">{stat.label}</div>
-            </motion.div>
-          ))}
+          {portfolioContent.aboutStats.map((stat, index) => {
+            const CardTag = stat.href ? motion.a : motion.div;
+            const linkProps = stat.href
+              ? { href: stat.href, target: '_blank', rel: 'noopener noreferrer' }
+              : {};
+
+            return (
+              <CardTag
+                key={index}
+                className={`stat-card ${stat.href ? 'stat-card-link' : ''}`}
+                whileHover={{ y: -5 }}
+                transition={{ duration: 0.3 }}
+                {...linkProps}
+              >
+                <div className="stat-value">{stat.value}</div>
+                <div className="stat-label">{stat.label}</div>
+              </CardTag>
+            );
+          })}
         </motion.div>
       </div>
     </section>

@@ -88,7 +88,7 @@
 }
 
 .code-block {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(248, 250, 252, 0.9));
+  background: linear-gradient(180deg, var(--surface-strong), var(--surface-soft));
   border: 1px solid rgba(148, 163, 184, 0.22);
   border-radius: 1rem;
   padding: 2rem;
@@ -98,11 +98,11 @@
   backdrop-filter: blur(10px);
   box-shadow: var(--shadow-lg);
   max-width: 100%;
-  color: #0f172a;
+  color: var(--text);
 }
 
 .code-block code {
-  color: #1e3a8a;
+  color: var(--accent-subtle);
 }
 
 .code-block pre {

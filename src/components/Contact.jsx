@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FiDownload, FiGithub, FiLinkedin, FiMail, FiMapPin, FiPhone } from 'react-icons/fi';
+import { SiCodechef, SiLeetcode } from 'react-icons/si';
 import { portfolioContent } from '../content/loadContent';
 import '../styles/Contact.css';
 
@@ -39,6 +40,8 @@ function Contact() {
     email: FiMail,
     linkedin: FiLinkedin,
     github: FiGithub,
+    codechef: SiCodechef,
+    leetcode: SiLeetcode,
     resume: FiDownload,
     phone: FiPhone,
     location: FiMapPin
