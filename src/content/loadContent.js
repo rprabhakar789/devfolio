@@ -337,6 +337,7 @@ function normalizeCategoryLabel(id) {
     backend: 'Backend',
     fullstack: 'Full Stack',
     'system-design': 'System Design',
+    'agentic-ai': 'Agentic AI',
     tools: 'Tools'
   };
 

@@ -3,8 +3,6 @@ import { motion } from 'framer-motion';
 import '../styles/Footer.css';
 
 function Footer() {
-  const currentYear = new Date().getFullYear();
-
   return (
     <motion.footer
       className="footer"
@@ -14,10 +12,6 @@ function Footer() {
       viewport={{ once: true }}
     >
       <div className="footer-content">
-        <div className="footer-text">
-          <p>&copy; {currentYear} Rahul Prabhakar. All rights reserved.</p>
-          <p>Designed & Built with <span className="heart">💜</span> using React + Framer Motion</p>
-        </div>
         <div className="footer-links">
           <a href="https://github.com/rprabhakar789" target="_blank" rel="noopener noreferrer">
             GitHub

@@ -54,16 +54,6 @@ function Skills() {
           >
             <div className="skill-info">
               <h4>{skill.name}</h4>
-              <div className="skill-bar">
-                <motion.div
-                  className="skill-fill"
-                  initial={{ width: 0 }}
-                  animate={{ width: `${skill.level ?? 0}%` }}
-                  transition={{ duration: 0.8, delay: 0.1 }}
-                >
-                  {typeof skill.level === 'number' && <span className="skill-level">{skill.level}%</span>}
-                </motion.div>
-              </div>
               {skill.notes && <p className="skill-note">{skill.notes}</p>}
             </div>
           </motion.div>

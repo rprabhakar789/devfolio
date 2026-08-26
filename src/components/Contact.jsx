@@ -22,6 +22,14 @@ function Contact() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const recipient = portfolioContent.contact.email;
+    const subject = `Portfolio message from ${formData.name || 'a visitor'}`;
+    const body = `${formData.message}\n\n— ${formData.name} (${formData.email})`;
+    const mailtoUrl = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+    window.location.href = mailtoUrl;
+
     setSubmitted(true);
     setTimeout(() => setSubmitted(false), 5000);
     setFormData({ name: '', email: '', message: '' });
@@ -165,7 +173,7 @@ function Contact() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
-              ✓ Thanks for reaching out! I'll get back to you soon.
+              ✓ Opening your email app with the message ready to send...
             </motion.div>
           )}
         </motion.form>

@@ -94,7 +94,7 @@ function Hero() {
   name: "Rahul Prabhakar",
   role: "Software Engineer II",
   company: "Microsoft",
-  skills: ["React", "Java", "AWS"],
+  skills: ["Java", "AWS", "System Design", "Agentic Development"],
   passionate: true
 }`}</code>
             </pre>

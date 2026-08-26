@@ -16,6 +16,13 @@ const WELCOME_MESSAGE = {
     "Hi, I'm Rahul's portfolio assistant. Ask me about his work, education, achievements, or the systems he's built."
 };
 
+const SUGGESTED_QUESTIONS = [
+  "What is Rahul's background?",
+  'Summarize his recent experience',
+  'What technologies does he work with?',
+  'How can I get in touch?'
+];
+
 function createSessionId() {
   if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
     return crypto.randomUUID();
@@ -116,10 +123,10 @@ function Chatbot() {
     }
   }, [isOpen]);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async (event, presetMessage) => {
+    event?.preventDefault();
 
-    const trimmedMessage = input.trim();
+    const trimmedMessage = (presetMessage ?? input).trim();
 
     if (!trimmedMessage || isLoading) {
       return;
@@ -174,6 +181,15 @@ function Chatbot() {
     }
   };
 
+  const handleSuggestionClick = (question) => {
+    if (isLoading) {
+      return;
+    }
+    handleSubmit(undefined, question);
+  };
+
+  const hasAssistantReplied = messages.some((message) => !isUserRole(message.role) && message.id !== 'welcome');
+
   return (
     <div className="chatbot-shell">
       <AnimatePresence>
@@ -221,10 +237,25 @@ function Chatbot() {
                 );
               })}
 
+              {!hasAssistantReplied && messages.length === 1 && !isLoading && (
+                <div className="chatbot-suggestions">
+                  {SUGGESTED_QUESTIONS.map((question) => (
+                    <button
+                      key={question}
+                      type="button"
+                      className="chatbot-suggestion-chip"
+                      onClick={() => handleSuggestionClick(question)}
+                    >
+                      {question}
+                    </button>
+                  ))}
+                </div>
+              )}
+
               {isLoading && (
                 <div className="chat-message assistant loading">
                   <FiLoader className="chat-spinner" size={16} />
-                  <span>Thinking...</span>
+                  <span>{hasAssistantReplied ? 'Thinking...' : 'Waking up the assistant, first reply can take up to 30s...'}</span>
                 </div>
               )}
 

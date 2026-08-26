@@ -1,3 +1,27 @@
+- name: Portfolio Builder Agent
+  summary: An agentic workflow that watches a Gmail inbox via Google Apps Script and automatically updates and redeploys this portfolio whenever an email with the change details arrives.
+  technologies:
+    - Google Apps Script
+    - Gmail API
+    - Agentic AI
+    - Automation
+  category: agentic-ai
+  featured: true
+  links:
+    github: https://github.com/rprabhakar789/portfolio-management-agent
+
+- name: Zoom Meeting Agent
+  summary: An AI agent that joins live Zoom calls, listens in real time, and interacts naturally over chat and voice using a bridge architecture built on the Zoom Meeting SDK.
+  technologies:
+    - TypeScript
+    - Zoom SDK
+    - WebSockets
+    - Agentic AI
+  category: agentic-ai
+  featured: true
+  links:
+    github: https://github.com/rprabhakar789/zoom-meeting-agent
+
 - name: TinyUrl
   summary: A URL shortener application with analytics and custom URLs.
   technologies:
@@ -25,7 +49,7 @@
     - System Design
     - Java
   category: system-design
-  featured: true
+  featured: false
   links:
     github: https://github.com/rprabhakar789/Splitwise
 
@@ -35,7 +59,7 @@
     - Documentation
     - DevOps
   category: tools
-  featured: true
+  featured: false
   links:
     github: https://github.com/rprabhakar789/KnowYourTools
 
@@ -56,6 +80,6 @@
     - C++
     - CLI
   category: tools
-  featured: true
+  featured: false
   links:
     github: https://github.com/rprabhakar789/Todo-CLI

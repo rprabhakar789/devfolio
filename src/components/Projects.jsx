@@ -8,8 +8,8 @@ function Projects() {
   const [filter, setFilter] = useState('all');
   const { projects, projectCategories: categories } = portfolioContent;
 
-  const displayProjects = filter === 'all' 
-    ? projects 
+  const displayProjects = filter === 'all'
+    ? projects.filter((p) => p.featured !== false)
     : projects.filter(p => p.category === filter);
 
   return (
