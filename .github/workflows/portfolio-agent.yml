@@ -1,0 +1,127 @@
+name: Portfolio Agent
+
+on:
+  repository_dispatch:
+    types: [portfolio-update]
+  workflow_dispatch:
+    inputs:
+      instruction:
+        description: Free-text instruction describing the content change
+        required: true
+        type: string
+
+concurrency:
+  group: portfolio-agent
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.BOT_GH_PAT != '' && secrets.BOT_GH_PAT || secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run agent pipeline
+        id: agent
+        env:
+          # Never interpolate the instruction directly into the shell.
+          INSTRUCTION: ${{ github.event.client_payload.instruction || inputs.instruction }}
+          AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
+          AZURE_OPENAI_ENDPOINT: ${{ vars.AZURE_OPENAI_ENDPOINT != '' && vars.AZURE_OPENAI_ENDPOINT || secrets.AZURE_OPENAI_ENDPOINT }}
+          AZURE_OPENAI_DEPLOYMENT: ${{ vars.AZURE_OPENAI_DEPLOYMENT != '' && vars.AZURE_OPENAI_DEPLOYMENT || secrets.AZURE_OPENAI_DEPLOYMENT }}
+          AZURE_OPENAI_API_VERSION: ${{ vars.AZURE_OPENAI_API_VERSION != '' && vars.AZURE_OPENAI_API_VERSION || secrets.AZURE_OPENAI_API_VERSION }}
+          AZURE_OPENAI_TEMPERATURE: ${{ vars.AZURE_OPENAI_TEMPERATURE != '' && vars.AZURE_OPENAI_TEMPERATURE || secrets.AZURE_OPENAI_TEMPERATURE }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_MODEL: ${{ vars.OPENAI_MODEL }}
+          # Debug logging is ON unless a var/secret explicitly disables it.
+          AI_DEBUG_RESPONSE: ${{ vars.AI_DEBUG_RESPONSE != '' && vars.AI_DEBUG_RESPONSE || (secrets.AI_DEBUG_RESPONSE != '' && secrets.AI_DEBUG_RESPONSE || 'true') }}
+        run: |
+          set +e
+          node pipeline/agent.js
+          code=$?
+          set -e
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          if [ "$code" -eq 1 ]; then
+            echo "::error::Agent pipeline failed."
+            exit 1
+          fi
+
+      - name: Validate content
+        if: steps.agent.outputs.status == 'applied'
+        run: npm run validate:content
+
+      - name: Build site
+        if: steps.agent.outputs.status == 'applied'
+        run: npm run build
+
+      - name: Open pull request
+        id: pr
+        if: steps.agent.outputs.status == 'applied'
+        env:
+          GH_TOKEN: ${{ secrets.BOT_GH_PAT != '' && secrets.BOT_GH_PAT || secrets.GITHUB_TOKEN }}
+          SUMMARY: ${{ steps.agent.outputs.summary }}
+          AUTO_MERGE: ${{ steps.agent.outputs.auto_merge }}
+          INSTRUCTION: ${{ github.event.client_payload.instruction || inputs.instruction }}
+        run: |
+          set -euo pipefail
+          BRANCH="agent/update-$(date -u +%Y%m%d-%H%M%S)"
+          git config user.name "portfolio-agent[bot]"
+          git config user.email "portfolio-agent[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add content
+          git commit -m "content: automated portfolio update" -m "$SUMMARY"
+          git push origin "$BRANCH"
+
+          {
+            echo "Automated content update produced by the portfolio agent."
+            echo
+            echo "**Instruction**"
+            echo
+            echo "> ${INSTRUCTION}"
+            echo
+            echo "**Result**"
+            echo
+            echo "${SUMMARY}"
+            echo
+            echo "Auto-merge intent detected: \`${AUTO_MERGE}\`"
+          } > /tmp/pr-body.md
+
+          URL=$(gh pr create \
+            --base main \
+            --head "$BRANCH" \
+            --title "content: automated portfolio update" \
+            --body-file /tmp/pr-body.md)
+          echo "url=$URL" >> "$GITHUB_OUTPUT"
+          echo "Opened $URL"
+
+      - name: Auto-merge
+        if: steps.agent.outputs.status == 'applied' && steps.agent.outputs.auto_merge == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.BOT_GH_PAT != '' && secrets.BOT_GH_PAT || secrets.GITHUB_TOKEN }}
+          PR_URL: ${{ steps.pr.outputs.url }}
+        run: |
+          set -euo pipefail
+          echo "Auto-merge intent detected — waiting for checks on $PR_URL"
+          sleep 20
+          gh pr checks "$PR_URL" --watch --fail-fast
+          gh pr merge "$PR_URL" --merge --delete-branch
+          echo "Merged $PR_URL — the Pages deploy workflow will publish from main."
+
+      - name: Report no-op
+        if: steps.agent.outputs.status == 'no_changes'
+        run: echo "::notice::The instruction produced no content changes."
