@@ -9,6 +9,8 @@ import '../styles/Chatbot.css';
 
 const CHATBOT_STORAGE_KEY = 'portfolio-chatbot-state';
 
+const CHAT_FAILURE_MESSAGE = 'Sorry, I failed to fetch this information. Please try again in a moment.';
+
 const WELCOME_MESSAGE = {
   id: 'welcome',
   role: 'assistant',
@@ -162,9 +164,13 @@ function Chatbot() {
         }
       ]);
     } catch (requestError) {
-      const fallbackMessage =
-        requestError.response?.data?.message ||
-        'Sorry, the chat service is unavailable right now. Please try again in a moment.';
+      // Never show backend error text to visitors: it can expose provider
+      // details such as rate limits. Keep the specifics in dev builds only.
+      if (import.meta.env.DEV) {
+        console.error('[chatbot] request failed', requestError.response?.status, requestError.response?.data);
+      }
+
+      const fallbackMessage = CHAT_FAILURE_MESSAGE;
 
       setError(fallbackMessage);
       setMessages((currentMessages) => [
