@@ -51,6 +51,7 @@
       level: 80
     - name: NoSQL
       level: 86
+    - name: MySQL
 
 - id: specialties
   category: Specialties
